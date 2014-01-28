@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/admin', function()
+Route::group(array('prefix'=>'/admin'), function()
 {
-	return View::make('admin');
+	Route::any('/', 'AdminController@dashboard');
+
+	Route::get('/create-user', 'AdminController@createUser');
 });
 
 Route::get('/', function()
