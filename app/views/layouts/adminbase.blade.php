@@ -72,14 +72,14 @@
         <div class="grid_12">
             
             <ul class="nav main">
-                <li class="ic-dashboard"><a href="/admin"><span>Dashboard</span></a> </li>
+                <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
                 <li class="ic-form-style"><a href="javascript:"><span>Admin</span></a>
                     <ul>
-                        <li><a href="form-controls.html">Pengguna</a> </li>
-						<li><a href="form-controls.html">Peserta</a> </li>
-                        <li><a href="buttons.html">Lomba</a> </li>
-						<li><a href="table.html">Aktivitas Lomba</a> </li>
-						<li><a href="table.html">Group</a> </li>
+                        <li> {{HTML::link('admin/create-user','Pengguna')}} </li>
+                        <li> {{HTML::link('admin/create-group','Group Lomba')}} </li>
+                        <li> {{HTML::link('admin/create-contest','Kategori Lomba')}} </li>
+                        <li> {{HTML::link('admin/create-activity','Aktivitas')}} </li>
+                        <li> {{HTML::link('admin/list-participant','List Peserta')}} </li>                        
                     </ul>
                 </li>
                 <li class="ic-grid-tables"><a href="javascript:"><span>Aktivitas Lomba</span></a>

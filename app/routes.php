@@ -16,6 +16,14 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::any('/', 'AdminController@dashboard');
 
 	Route::get('/create-user', 'AdminController@createUser');
+	Route::get('/create-group', 'AdminController@createGroup');	
+	Route::get('/create-contest', 'AdminController@createContest');
+	Route::get('/create-activity', 'AdminController@createActivity');
+
+	Route::get('/list-user', 'AdminController@listUser');
+	Route::get('/list-group', 'AdminController@listGroup');
+	Route::get('/list-contest', 'AdminController@listContest');
+	Route::get('/list-activity', 'AdminController@listActivity');
 });
 
 Route::get('/', function()
