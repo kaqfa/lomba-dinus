@@ -10,10 +10,10 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::group(array('prefix'=>'/admin'),function(){
-	Route::any('/', 'AdminController@dashboard');
-	
-	Route::get('/create-user', 'AdminController@createUser');
+
+Route::get('/admin', function()
+{
+	return View::make('admin');
 });
 
 Route::get('/', function()

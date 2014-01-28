@@ -56,16 +56,6 @@ class CreateTables extends Migration {
 			$table->timestamps();
 		});
 		
-		Schema::create('activites', function($table){
-			$table->increments('id');
-			$table->string('name', 200);
-			$table->text('description')->nullable();
-			$table->integer('contest_id')->unsigned();
-			$table->date('from')->nullable();
-			$table->date('until')->nullable();
-			$table->timestamps();
-		});
-		
 		Schema::create('group_activites', function($table){
 			$table->increments('id');
 			$table->integer('group_contest_id')->unsigned();
@@ -74,37 +64,6 @@ class CreateTables extends Migration {
 			$table->string('file', 200)->nullable();
 			$table->string('file_type', 200)->nullable();
 			$table->timestamps();
-		});
-		
-		Schema::create('tests', function($tb){
-			$tb->increments('id');
-			$tb->string('name', 200);
-			$tb->text('description');
-			$tb->date('from')->nullable();
-			$tb->date('until')->nullable();
-			$tb->smallInteger('minutes');
-			$tb->timestamps();
-		});
-		
-		Schema::create('questions', function($tb){
-			$tb->increments('id');
-			$tb->text('question');
-			$tb->string('optA', 200);
-			$tb->string('optB', 200);
-			$tb->string('optC', 200);
-			$tb->string('optD', 200);
-			$tb->string('optE', 200);
-			$tb->smallInteger('answer');
-			$tb->smallInteger('type');
-			$tb->timestamps();
-		});
-		
-		Schema::create('group_answers', function($tb){
-			$tb->increments('id');
-			$tb->integer('question_id')->unsigned();
-			$tb->integer('group_id')->unsigned();
-			$tb->smallInteger('answer');			
-			$tb->timestamps();
 		});
 		
 		Schema::create('messages', function($table){
@@ -132,7 +91,7 @@ class CreateTables extends Migration {
 		Schema::dropIfExists('users');
 		Schema::dropIfExists('participants');
 		Schema::dropIfExists('group_members');
-		Schema::dropIfExists('contests');
+		Schema::dropIfExists('contest');
 		Schema::dropIfExists('group_contest');
 		Schema::dropIfExists('group_activites');
 		Schema::dropIfExists('messages');
