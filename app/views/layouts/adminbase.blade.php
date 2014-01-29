@@ -13,12 +13,14 @@
 	
 	@section('jslibs')
     <!-- BEGIN: load jquery -->
-    {{ HTML::script('bluewhale/js/jquery-1.6.4.min.js') }}
-    {{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.core.min.js') }}
-    {{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.widget.min.js') }}
-    {{-- HTML::script('bluewhale/js/jquery-ui/jquery.ui.accordion.min.js') --}}
-    {{ HTML::script('bluewhale/js/jquery-ui/jquery.effects.core.min.js') }}
-    {{ HTML::script('bluewhale/js/jquery-ui/jquery.effects.slide.min.js') }}
+    {{ HTML::style('jqui/themes/base/jquery.ui.all.css') }}
+
+    {{ HTML::script('jqui/jquery.js') }}
+    {{ HTML::script('jqui/ui/minified/jquery.ui.core.min.js') }}
+    {{ HTML::script('jqui/ui/minified/jquery.ui.widget.min.js') }}
+    {{-- HTML::script('jqui/ui/minified/jquery.effects.core.min.js') --}}
+    {{-- HTML::script('jqui/ui/minified/jquery.effects.slide.min.js') --}}
+    {{-- HTML::script('jqui/ui/minified/jquery.ui.accordion.min.js') --}}
     <!-- END: load jquery -->
 	@show
 	
@@ -49,10 +51,11 @@
         <div class="grid_12 header-repeat">
             <div id="branding">
                 <div class="floatleft">
-                    <img src="bluewhale/img/logo.png" alt="Logo" /></div>
+                    {{HTML::image('bluewhale/img/logo.png', 'logo')}}</div>
                 <div class="floatright">
                     <div class="floatleft">
-                        <img src="bluewhale/img/img-profile.jpg" alt="Profile Pic" /></div>
+                        {{HTML::image('bluewhale/img/img-profile.jpg', 'Profile Pic')}}
+                        </div>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
                             <li>Hello Admin</li>

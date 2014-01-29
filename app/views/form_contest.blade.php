@@ -5,7 +5,7 @@
 	{{ HTML::style('bluewhale/css/fancy-button/fancy-button.css') }}
 	{{ HTML::script('bluewhale/js/fancy-button/fancy-button.js') }} 
 
-	<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+	{{ HTML::script('tinymce/tinymce.min.js') }}
 	<script>
         tinymce.init({selector:'textarea'});
 	</script>   
