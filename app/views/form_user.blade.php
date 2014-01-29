@@ -8,7 +8,7 @@
 
 @section('mainarea')
 <div class="grid_12">
-            
+
     <div class="box round first fullpage">
         <h2>Form {{$action}} Pengguna</h2>
         <div class="block">

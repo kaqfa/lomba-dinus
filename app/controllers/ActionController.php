@@ -15,17 +15,17 @@ class ActionController extends \BaseController {
 	public function insertUser(){
 		$user = new User;
 
-		$user->username = Input::post('username');
-		$user->password = Input::post('password');
-		$user->name = Input::post('name');
-		$user->email = Input::post('email');
-		$user->contact = Input::post('contact');
-		$user->level = Input::post('contact');
-		$user->status = Input::post('status');
+		$user->username = Input::get('username');
+		$user->passwd = Input::get('passwd');
+		$user->name = Input::get('name');
+		$user->email = Input::get('email');
+		$user->contact = Input::get('contact');
+		$user->level = Input::get('level');
+		$user->status = 1;
 
 		$user->save();
 
-		Route::
+		return Redirect::to('admin/list-user');
 	}
 
 	/**

@@ -19,8 +19,11 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_user', $this->data);
 	}
 	
-	public function editUser(){
-		$this->layout->content = View::make('form_user');
+	public function editUser($idUser){
+		$this->data['user'] = User::find($idUser);
+		$this->data['action'] = 'Memperbaharui';
+		
+		$this->layout->content = View::make('form_user', $this->data);
 	}
 	
 	public function listUser(){

@@ -49,8 +49,8 @@
 						<td> {{$data['last_login']}} </td>
 						<td> {{($data['status'] == 1 ? 'Aktif' : 'Non-Aktif') }} </td>
 						<td>
-							{{HTML::link('admin/user-edit/'.$data['id'], '[edit]')}} ||  
-							{{HTML::link('admin/user-del/'.$data['id'], '[del]')}} 
+							{{HTML::link('admin/edit-user/'.$data['id'], '[edit]')}} ||  
+							{{HTML::link('admin/del-user/'.$data['id'], '[del]')}} 
 						</td>
 					</tr>
 					@endforeach
