@@ -7,6 +7,7 @@ class AdminController extends BaseController {
 
 	public function __construct(){
 		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
+		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');
 	}
 
 	public function dashboard()
@@ -33,7 +34,18 @@ class AdminController extends BaseController {
 	}
 
 	public function listParticipant(){
-		$this->layout->content = View::make('list_participant');
+		$this->data['participants'] = Participant::all()->toArray;
+		$i = 0;
+		foreach ($data['participants'] as $data) {
+			$contests = DB::select('select g.name as contest,  from groups g 
+					join group_members gm on (g.id = gm.groups_id)
+					join contest c on (c.id = g.contest_id)
+					where gm.participant_id = ?', array($data['id']));
+			$this->data['participants'][$i]['contests'] = $contests->toArray();
+			$i++;
+		}
+
+		$this->layout->content = View::make('list_participant', $this->data);
 	}
 
 	public function createContest(){
@@ -41,15 +53,39 @@ class AdminController extends BaseController {
 	}
 
 	public function listContest(){
-		$this->layout->content = View::make('list_contest');
+		$q = 'select id,name,description,
+				(select count(*) from groups where contest_id = c.id) as groupnum
+				from contests c';
+		$this->data['contests'] = DB::select($q);
+
+		$this->layout->content = View::make('list_contest', $this->data);
 	}
 
 	public function createGroup(){
 		$this->layout->content = View::make('form_group');
 	}
 
+	public function listGroup(){		
+		$q = 'select g.id as id, g.name as name, p.name as leader, advisor, 
+					 g.contact as contact, c.name as contest
+					from groups g 
+					join group_members gm on (group_id = g.id)
+					join participants p on (gm.participant_id = p.id)
+					join contests c on (c.id = g.contest_id)
+					where gm.role = ? ';
+		$this->data['groups'] = DB::select($q, array('advisor'));
+
+		$this->layout->content = View::make('list_group', $this->data);
+	}
+
 	public function createActivity(){
 		$this->layout->content = View::make('form_activity');
 	}	
+
+	public function listActivity(){
+		$this->data['acts'] = Activity::all()->toArray();
+
+		$this->layout->content = View::make('list_activity', $this->data);
+	}
 
 }

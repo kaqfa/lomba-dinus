@@ -16,14 +16,24 @@ class ActionController extends \BaseController {
 		$user = new User;
 
 		$user->username = Input::get('username');
-		$user->passwd = Input::get('passwd');
-		$user->name = Input::get('name');
-		$user->email = Input::get('email');
-		$user->contact = Input::get('contact');
-		$user->level = Input::get('level');
-		$user->status = 1;
+		$user->passwd 	= Hash::make(Input::get('passwd'));
+		$user->name 	= Input::get('name');
+		$user->email	= Input::get('email');
+		$user->contact 	= Input::get('contact');
+		$user->level 	= Input::get('level');
+		$user->status 	= 1;
 
 		$user->save();
+
+		if(Input::get('level') == '3'){
+			$par = Participant;
+
+			$par->name = Input::get('name');
+			$par->email = Input::get('email');
+			$par->created_by = 1;
+
+			$par->save();
+		}
 
 		return Redirect::to('admin/list-user');
 	}

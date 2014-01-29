@@ -175,4 +175,6 @@ return array(
 
 	),
 
+	'Way\Generators\GeneratorsServiceProvider',
+
 );

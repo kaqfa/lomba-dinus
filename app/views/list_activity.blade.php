@@ -1,4 +1,4 @@
-﻿@section('jslibs')
+@section('jslibs')
 	@parent
 	
 	<!--Fancy Button-->	
@@ -22,34 +22,34 @@
 <div class="grid_12">
             
     <div class="box round first fullpage">
-        <h2>Form Group Lomba</h2>
+        <h2>List Kategori Lomba</h2>
         <div class="block">
+        	{{HTML::link('admin/create-activity','[Tambah Aktifitas Lomba]')}}
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>
-						<th>NIM</th>
-						<th>Nama</th>
-						<th>Email</th>
-						<th>Kontak</th>
-						<th>Lomba yang diikuti</th>
+						<th>Nama Aktifitas</th>
+						<th>Deskripsi Aktifitas</th>						
+						<th>Kategori Lomba</th>
+						<th>Tanggal Aktifitas</th>
+						<th>Jenis Aktifitas</th>
+						<th>Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($participants as $data)
+					@foreach($acts as $data)
 					<tr class="odd gradeX">
-						<td> {{$data['nim']}} </td>
 						<td> {{$data['name']}} </td>
-						<td> {{$data['email']}} </td>
-						<td class="center"> {{data['contact']}} </td>
+						<td> {{$data['descriptions']}} </td>
+						<td> {{$data['category']}} </td>
+						<td> {{$data['from'].' -- '.$data['until']}} </td>
+						<td> {{$actType[$data['type']]}} </td>
 						<td>
-							<ul>	
-								@foreach($contests as $con)
-								<li>{{$con['name'].'('.$con['role'].')'}}</li>
-								<li>{{HTML::link('admin/create-group/'.$data['id'], '[Tambah Lomba]')}}</li>
-							</ul>
+							{{HTML::link('admin/edit-contest/'.$data['id'], '[edit]')}} ||  
+							{{HTML::link('admin/del-contest/'.$data['id'], '[del]')}} 
 						</td>
 					</tr>
-					@endforeach					
+					@endforeach
 				</tbody>
 			</table>
         </div>

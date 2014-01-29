@@ -27,7 +27,7 @@ class CreateTables extends Migration {
 		Schema::create('participants', function($table){
 			$table->increments('id');
 			$table->integer('users_id')->unsigned()->nullable();
-			$table->string('nim', 15);
+			$table->string('nim', 15)->nullable();
 			$table->string('name', 40);
 			$table->string('email', 200);
 			$table->string('ktm_file', 200)->nullable();
@@ -44,13 +44,13 @@ class CreateTables extends Migration {
 		
 		Schema::create('group_members', function($table){
 			$table->increments('id');
-			$table->integer('participants_id')->unsigned();
-			$table->integer('group_contest_id')->unsigned();
+			$table->integer('participant_id')->unsigned();
+			$table->integer('group_id')->unsigned();
 			$table->smallInteger('role');
 			$table->timestamps();
 		});
 		
-		Schema::create('group_contest', function($table){
+		Schema::create('groups', function($table){
 			$table->increments('id');
 			$table->integer('contest_id')->unsigned();
 			$table->string('name', 100);
@@ -59,20 +59,20 @@ class CreateTables extends Migration {
 			$table->timestamps();
 		});
 		
-		Schema::create('activites', function($table){
+		Schema::create('activities', function($table){
 			$table->increments('id');
 			$table->string('name', 200);
 			$table->text('description')->nullable();
 			$table->integer('contest_id')->unsigned();
-			$table->date('from')->nullable();
-			$table->date('until')->nullable();
+			$table->date('date_from')->nullable();
+			$table->date('date_until')->nullable();
 			$table->smallInteger('type');
 			$table->timestamps();
 		});
 		
 		Schema::create('group_activites', function($table){
 			$table->increments('id');
-			$table->integer('group_contest_id')->unsigned();
+			$table->integer('group_id')->unsigned();
 			$table->string('activity', 200);
 			$table->text('description')->nullable();
 			$table->string('file', 200)->nullable();
