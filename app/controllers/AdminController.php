@@ -3,6 +3,11 @@
 class AdminController extends BaseController {
 
 	protected $layout = 'layouts.adminbase';
+	protected $data = null;
+
+	public function __construct(){
+		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
+	}
 
 	public function dashboard()
 	{
@@ -10,7 +15,8 @@ class AdminController extends BaseController {
 	}
 	
 	public function createUser(){
-		$this->layout->content = View::make('form_user',array('action'=>'Membuat'));
+		$this->data['action'] = 'Membuat'; 
+		$this->layout->content = View::make('form_user', $this->data);
 	}
 	
 	public function editUser(){
@@ -18,7 +24,13 @@ class AdminController extends BaseController {
 	}
 	
 	public function listUser(){
-		$this->layout->content = View::make('list_user');
+		$this->data['users'] = User::all()->toArray();
+
+		$this->layout->content = View::make('list_user', $this->data);
+	}
+
+	public function listParticipant(){
+		$this->layout->content = View::make('list_participant');
 	}
 
 	public function createContest(){

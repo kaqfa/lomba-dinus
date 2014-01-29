@@ -15,6 +15,9 @@ class CreateTables extends Migration {
 			$table->increments('id');
 			$table->string('username', 40);
 			$table->string('passwd', 40);
+			$table->string('name', 50);
+			$table->string('email', 100);
+			$table->string('contact', 20);
 			$table->smallInteger('level');
 			$table->timestamp('last_login');
 			$table->smallInteger('status');

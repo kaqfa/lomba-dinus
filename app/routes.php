@@ -24,9 +24,15 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/list-group', 'AdminController@listGroup');
 	Route::get('/list-contest', 'AdminController@listContest');
 	Route::get('/list-activity', 'AdminController@listActivity');
+	Route::get('/list-participant', 'AdminController@listParticipant');
 });
 
 Route::get('/', function()
 {
 	return View::make('login');
+});
+
+Route::get('/user', function()
+{
+	var_dump(User::all());
 });

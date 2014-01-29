@@ -76,12 +76,12 @@
             
             <ul class="nav main">
                 <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
-                <li class="ic-form-style"><a href="javascript:"><span>Admin</span></a>
+                <li class="ic-form-style"><a href="javascript:"><span>Administrasi</span></a>
                     <ul>
-                        <li> {{HTML::link('admin/create-user','Pengguna')}} </li>
-                        <li> {{HTML::link('admin/create-group','Group Lomba')}} </li>
-                        <li> {{HTML::link('admin/create-contest','Kategori Lomba')}} </li>
-                        <li> {{HTML::link('admin/create-activity','Aktivitas')}} </li>
+                        <li> {{HTML::link('admin/list-user','Pengguna')}} </li>
+                        <li> {{HTML::link('admin/list-group','Group Lomba')}} </li>
+                        <li> {{HTML::link('admin/list-contest','Kategori Lomba')}} </li>
+                        <li> {{HTML::link('admin/list-activity','Aktivitas')}} </li>
                         <li> {{HTML::link('admin/list-participant','List Peserta')}} </li>                        
                     </ul>
                 </li>
