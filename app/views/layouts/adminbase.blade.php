@@ -73,7 +73,6 @@
         <div class="clear">
         </div>
         <div class="grid_12">
-            
             <ul class="nav main">
                 <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
                 <li class="ic-form-style"><a href="javascript:"><span>Administrasi</span></a>
@@ -86,17 +85,14 @@
                     </ul>
                 </li>
                 <li class="ic-grid-tables"><a href="javascript:"><span>Aktivitas Lomba</span></a>
-               		 <ul>
-                        <li><a href="image-gallery.html">Upload Deskripsi</a> </li>
-                        <li><a href="gallery-with-filter.html">Upload Aplikasi</a> </li>
-                        <li><a href="gallery-with-filter.html">Upload Source Code</a> </li>
-						<li><a href="gallery-with-filter.html">Ujian Online</a> </li>
-						<li><a href="gallery-with-filter.html">Posting Bug</a> </li>
+                    <ul>
+                    @foreach($contestMenu as $menu)
+                        <li>{{HTML::link('admin/contest-act/'.$menu->id,$menu->name)}}</li>
+                    @endforeach
                     </ul>
                 </li>
                 <li class="ic-notifications"><a href="notifications.html"><span>Pesan</span></a></li>
             </ul>
-            
         </div>
         <div class="clear">
         </div>

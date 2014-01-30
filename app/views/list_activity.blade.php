@@ -40,9 +40,9 @@
 					@foreach($acts as $data)
 					<tr class="odd gradeX">
 						<td> {{$data['name']}} </td>
-						<td> {{$data['descriptions']}} </td>
-						<td> {{$data['category']}} </td>
-						<td> {{$data['from'].' -- '.$data['until']}} </td>
+						<td> {{$data['description']}} </td>
+						<td> {{$data['contest_id']}} </td>
+						<td> {{$data['date_from'].' -- '.$data['date_until']}} </td>
 						<td> {{$actType[$data['type']]}} </td>
 						<td>
 							{{HTML::link('admin/edit-contest/'.$data['id'], '[edit]')}} ||  

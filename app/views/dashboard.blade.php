@@ -1,4 +1,6 @@
-﻿@section('mainarea')
+﻿
+@section('mainarea')
+
 <div class="grid_12">
             
     <div class="box round first">

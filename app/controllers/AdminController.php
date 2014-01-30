@@ -8,6 +8,7 @@ class AdminController extends BaseController {
 	public function __construct(){
 		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
 		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');
+		View::share('contestMenu', Activity::get(array('id','name')));
 	}
 
 	public function dashboard()

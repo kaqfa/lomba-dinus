@@ -29,6 +29,9 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/edit-user/{id}', 'AdminController@editUser');
 
 	Route::post('/user/insert', 'ActionController@insertUser');
+	Route::post('/activity/insert', 'ActionController@insertActivity');
+
+	Route::get('/contest-act/{id}', 'ContestController@index');
 });
 
 

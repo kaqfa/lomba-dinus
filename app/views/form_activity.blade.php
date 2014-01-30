@@ -36,16 +36,16 @@
 					</tr>	
 					<tr>
 						<td> {{Form::label('contest_id', 'Untuk Lomba')}} </td>
-						<td> {{Form::select('contest_is', array('1'=>'Aplikasi Inovatif'))}} </td>
+						<td> {{Form::select('contest_id', array('1'=>'Aplikasi Inovatif'))}} </td>
 					</tr>
 					<tr>
-						<td> {{Form::label('from', 'Mulai Aktifitas')}} </td>
-						<td> {{Form::text('from', null, array('class'=>'datepicker'))}}  
+						<td> {{Form::label('date_from', 'Mulai Aktifitas')}} </td>
+						<td> {{Form::text('date_from', null, array('class'=>'datepicker'))}}  
 							<small>yyyy-mm-dd</small></td>
 					</tr>
 					<tr>
-						<td> {{Form::label('until', 'Akhir Aktifitas')}} </td>
-						<td> {{Form::text('until', null, array('class'=>'datepicker'))}} 
+						<td> {{Form::label('date_until', 'Akhir Aktifitas')}} </td>
+						<td> {{Form::text('date_until', null, array('class'=>'datepicker'))}} 
 							<small>yyyy-mm-dd</small></td>
 					</tr>
 					<tr>

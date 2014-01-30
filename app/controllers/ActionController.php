@@ -38,6 +38,21 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-user');
 	}
 
+	public function insertActivity(){
+		$act = new Activity;
+
+		$act->name = Input::get('name');
+		$act->description = Input::get('description');
+		$act->contest_id = Input::get('contest_id');
+		$act->date_from = Input::get('date_from');
+		$act->date_until = Input::get('date_until');
+		$act->type = Input::get('type');
+
+		$act->save();
+
+		return Redirect::to('admin/list-activity');
+	}
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
