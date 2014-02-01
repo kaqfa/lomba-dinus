@@ -2,11 +2,11 @@
 
 class ContestController extends \BaseController {
 
-	protected $layout = 'layouts.adminbase';
+	protected $layout = 'test.testbase';
 	protected $data = array();
 
 	public function __construct(){
-		View::share('contestMenu', Activity::get(array('id','name')));
+		//View::share('pageNum', Input);
 	}
 
 	/**
@@ -14,18 +14,9 @@ class ContestController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index($id)
+	public function index($num)
 	{
-		$activity = Activity::find($id);
-
-		$this->data['act'] = array('name'=>$activity->name, 'type' => '2'); // $activity->type
-		
-		if($activity->type != '3'){
-			$this->layout->content = View::make('form_act_contest', $this->data);
-		} else {
-			$this->layout = 'layout.testbase';
-			$this->layout->content = View::make('test_start', $this->data);
-		}
+		$this->layout->content =  View::make('test.test', $this->data);
 	}
 
 	/**

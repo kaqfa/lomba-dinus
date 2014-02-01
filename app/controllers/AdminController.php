@@ -89,4 +89,17 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('list_activity', $this->data);
 	}
 
+	public function contestAct($id){
+		$activity = Activity::find($id);
+
+		$this->data['act'] = array('name'=>$activity->name, 'type' => '3'); // $activity->type
+		
+		if($this->data['act']['type'] != '3'){
+			$this->layout->content = View::make('form_act_contest', $this->data);
+		} else {
+			$this->data['pageNum'] = 1;
+			$this->layout->content = View::make('test_welcome', $this->data);
+		}
+	}
+
 }

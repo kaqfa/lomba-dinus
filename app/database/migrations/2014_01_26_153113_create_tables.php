@@ -133,17 +133,17 @@ class CreateTables extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('users');
-		Schema::dropIfExists('participants');
-		Schema::dropIfExists('group_members');
-		Schema::dropIfExists('contests');
-		Schema::dropIfExists('group_contest');
-		Schema::dropIfExists('group_activites');
-		Schema::dropIfExists('messages');
-		Schema::dropIfExists('activities');
-		Schema::dropIfExists('tests');
-		Schema::dropIfExists('questions');
-		Schema::dropIfExists('group_answers');
+		Schema::drop('users');
+		Schema::drop('participants');
+		Schema::drop('group_members');
+		Schema::drop('contests');
+		Schema::drop('group_contest');
+		Schema::drop('group_activites');
+		Schema::drop('messages');
+		Schema::drop('activities');
+		Schema::drop('tests');
+		Schema::drop('questions');
+		Schema::drop('group_answers');
 	}
 
 }

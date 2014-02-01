@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/trans', function(){
+	return View::make('test/testbase');
+});
+
 Route::group(array('prefix'=>'/admin'), function()
 {
 	Route::any('/', 'AdminController@dashboard');
@@ -31,7 +35,9 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::post('/user/insert', 'ActionController@insertUser');
 	Route::post('/activity/insert', 'ActionController@insertActivity');
 
-	Route::get('/contest-act/{id}', 'ContestController@index');
+	Route::get('/contest-act/{id}', 'AdminController@contestAct');
+
+	Route::get('/test/{num}', 'ContestController@index');
 });
 
 
