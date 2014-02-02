@@ -1,17 +1,14 @@
 <?php
 
 class Group extends Eloquent {
-	protected $table = "groups";
 
-	public function Activity(){
-		return $this->belongsToMany('Activity', 'group_activities');
+	protected $table = 'groups';
+	public $timestamps = true;
+	protected $softDelete = false;
+
+	public function groupActivity()
+	{
+		return $this->belongsToMany('Activity');
 	}
 
-	public function Contest(){
-		return $this->belongsTo('Contest');
-	}
-
-	public function Participant(){
-		return $this->belongsToMany('Participant', 'group_members');
-	}
 }

@@ -84,9 +84,9 @@ class CreateTables extends Migration {
 			$tb->increments('id');
 			$tb->string('name', 200);
 			$tb->text('description');
-			$tb->date('from')->nullable();
-			$tb->date('until')->nullable();
-			$tb->smallInteger('minutes');
+			$tb->date('date_from')->nullable();
+			$tb->date('date_until')->nullable();
+			$tb->smallInteger('minutes');	
 			$tb->timestamps();
 		});
 		
