@@ -13,8 +13,35 @@
 	
 	<script type="text/javascript">
         $(document).ready(function () {            
-            $('.datatable').dataTable();			
+            $('.datatable').dataTable();
+            $('[name=check2]').click(function(){
+	        	if( $('[name=check2]').prop( "checked" ) ){	        		
+	        		$('[name="nim2"]').removeAttr('disabled');
+	        		$('[name="name2"]').removeAttr('disabled');
+	        		$('[name="email2"]').removeAttr('disabled');
+	        		$('[name="ktm_file2"]').removeAttr('disabled');
+	        	} else {
+	        		$('[name="nim2"]').attr('disabled', 'disabled');
+	        		$('[name="name2"]').attr('disabled', 'disabled');
+	        		$('[name="email2"]').attr('disabled', 'disabled');
+	        		$('[name="ktm_file2"]').attr('disabled', 'disabled');
+	        	}
+	        });	
+	        $('[name=check3]').click(function(){
+	        	if( $('[name=check3]').prop( "checked" ) ){	        		
+	        		$('[name="nim3"]').removeAttr('disabled');
+	        		$('[name="name3"]').removeAttr('disabled');
+	        		$('[name="email3"]').removeAttr('disabled');
+	        		$('[name="ktm_file3"]').removeAttr('disabled');
+	        	} else {
+	        		$('[name="nim3"]').attr('disabled', 'disabled');
+	        		$('[name="name3"]').attr('disabled', 'disabled');
+	        		$('[name="email3"]').attr('disabled', 'disabled');
+	        		$('[name="ktm_file3"]').attr('disabled', 'disabled');
+	        	}
+	        });		
         });
+        
     </script>  
 @stop
 
@@ -24,7 +51,7 @@
     <div class="box round first fullpage">
         <h2>Form Group Lomba</h2>
         <div class="block">
-            {{ Form::open(array('url'=>'admin/contest/insert')) }}
+            {{ Form::open(array('url'=>'admin/group/insert')) }}            
 			<table class="form">
 				<tr>
 					<td> {{Form::label('name', 'Nama Group')}} </td>
@@ -38,6 +65,10 @@
 					<td> {{Form::label('contact', 'Nomor (Hand)Phone')}} </td>
 					<td> {{Form::text('contact')}} </td>
 				</tr>									
+				<tr>
+					<td> {{Form::label('contest_id', 'Kategori Lomba')}} </td>
+					<td> {{Form::select('contest_id', $contests)}} </td>
+				</tr>
 			</table>
 			<?php $role = array('1'=>'Ketua', '2'=>'Anggota'); ?>
 			<table class="data display datatable" id="example">
@@ -53,10 +84,12 @@
 				</thead>
 				<tbody>
 					<tr class="odd gradeX">
-						<td> {{Form::checkbox('check1', 1, true, array('readonly'=>'readonly'))}} </td>
-						<td> {{Form::text('nim1', 'A11.2009.01234', array('readonly'=>'readonly') )}} </td>
-						<td> {{Form::text('name1', 'Giyan Ayu Wulandari', array('readonly'=>'readonly'))}} </td>
-						<td> {{Form::email('email1', 'gigiyayan@gmail.com', array('readonly'=>'readonly'))}} </td>
+						{{Form::hidden('participant_id1', $participantId)}}
+						{{Form::hidden('check1', 1)}}
+						<td> {{Form::checkbox('checkFalse', 1, true, array('disabled'=>'disabled'))}} </td>
+						<td> {{Form::text('nim1')}} </td>
+						<td> {{Form::text('name1', $participant->name, array('readonly'=>'readonly'))}} </td>
+						<td> {{Form::email('email1', $participant->email, array('readonly'=>'readonly'))}} </td>
 						<td class="center"> {{Form::file('ktm_file1')}} </td>
 						<td class="center"> Ketua </td>
 					</tr>

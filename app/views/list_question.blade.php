@@ -22,30 +22,26 @@
 <div class="grid_12">
             
     <div class="box round first fullpage">
-        <h2>List Kategori Lomba</h2>
+        <h2>List Soal Untuk Tes {{$testName}} </h2>
         <div class="block">
-        	{{HTML::link('admin/create-activity','[Tambah Aktifitas Lomba]')}}
+        	{{HTML::link('admin/create-question/'.$testId,'[Tambah Soal Tes]')}}
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>
-						<th>Nama Aktifitas</th>
-						<th>Deskripsi Aktifitas</th>						
-						<th>Kategori Lomba</th>
-						<th>Tanggal Aktifitas</th>
-						<th>Jenis Aktifitas</th>
+						<th>Pertanyaan</th>
+						<th>Opsi Jawaban</th>						
+						<th>Jawaban Benar</th>
 						<th>Aksi</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($acts as $data)
+					@foreach($quests as $data)
 					<tr class="odd gradeX">
-						<td> {{$data['name']}} </td>
-						<td> {{$data['description']}} </td>
-						<td> {{$data['contest']['name']}} </td>
-						<td> {{$data['date_from'].' -- '.$data['date_until']}} </td>
-						<td> {{$actType[$data['type']]}} </td>
+						<td> {{$data['question']}} </td>
+						<td> {{HTML::ol(array($data['optA'], $data['optB'], $data['optC'], $data['optD'], $data['optE']))}} </td>
+						<td> {{$data['answer']}} </td>
 						<td>
-							{{HTML::link('admin/edit-contest/'.$data['id'], '[edit]')}} ||  
+							{{HTML::link('admin/edit-question/'.$data['id'], '[edit]')}} ||  
 							{{HTML::link('admin/del-contest/'.$data['id'], '[del]')}} 
 						</td>
 					</tr>

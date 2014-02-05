@@ -9,7 +9,7 @@
             <h3>Selamat Mengerjakan Test</h3>
             <p>Tes adalah hal yang sangat bagus, silahkan mulai tes dengan melakukan klik di bawah ini.</p>
             <div>
-                {{HTML::link('admin/test/'.$group_id, 'MULAI TES SEKARANG !!!')}}
+                {{HTML::link('admin/test/'.$pageNum, 'MULAI TES SEKARANG !!!')}}
             </div>
             
             <div class="clear">

@@ -12,7 +12,7 @@ class CreateTestsTable extends Migration {
 			$table->timestamps();
 			$table->string('name', 100);
 			$table->text('description');
-			$table->decimal('date_from');
+			$table->date('date_from');
 			$table->date('date_until');
 			$table->smallInteger('minutes');
 		});

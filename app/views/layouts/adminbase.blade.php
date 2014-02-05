@@ -1,3 +1,4 @@
+<?php $theUser = Session::get('theUser'); ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -24,24 +25,10 @@
     <!-- END: load jquery -->
 	@show
 	
-    <!-- BEGIN: load jqplot -->
-	{{-- HTML::style('bluewhale/css/jquery.jqplot.min.css') --}}
-    <!--[if lt IE 9]>{{ HTML::script('bluewhale/js/jqPlot/excanvas.min.js') }}<![endif]-->
-    {{-- HTML::script('bluewhale/js/jqPlot/jquery.jqplot.min.js') --}}
-    {{-- HTML::script('bluewhale/js/jqPlot/plugins/jqplot.barRenderer.min.js') --}}
-    {{-- HTML::script('bluewhale/js/jqPlot/plugins/jqplot.pieRenderer.min.js') --}}
-    {{-- HTML::script('bluewhale/js/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js') --}}
-    {{-- HTML::script('bluewhale/js/jqPlot/plugins/jqplot.highlighter.min.js') --}}
-    {{-- HTML::script('bluewhale/js/jqPlot/plugins/jqplot.pointLabels.min.js') --}}    
-    <!-- END: load jqplot -->
-	
     {{ HTML::script('bluewhale/js/setup.js') }}
 	@section('jsloader')
     <script type="text/javascript">
-        $(document).ready(function () {
-            //setupDashboardChart('chart1');
-            //setupLeftMenu();
-			//setSidebarHeight();
+        $(document).ready(function () {            
         });
     </script>
 	@show
@@ -58,9 +45,8 @@
                         </div>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello Admin</li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li>Hello {{$theUser->name}} </li>                            
+                            <li> {{HTML::link('admin/logout', 'Logout')}} </li>
                         </ul>
                         <br />
                         <span class="small grey">Last Login: 3 hours ago</span>
@@ -90,12 +76,19 @@
                         <li>{{HTML::link('admin/contest-act/'.$menu->id,$menu->name)}}</li>
                     @endforeach
                     </ul>
+                </li>                
+                @if($theUser->level == 1)
+                <li class="ic-charts"><a href="javascript:"><span>Test Online</span></a> 
+                    <ul>
+                        <li> {{HTML::link('admin/list-test','Manajemen Test')}} </li>
+                        <li> {{HTML::link('admin/test-result','Hasil Tes')}} </li>                        
+                    </ul>
                 </li>
+                @endif
                 <li class="ic-notifications"><a href="notifications.html"><span>Pesan</span></a></li>
             </ul>
         </div>
-        <div class="clear">
-        </div>
+        <div class="clear"></div>
         
         @yield('mainarea')
 

@@ -12,11 +12,32 @@ class ActionController extends \BaseController {
 		//
 	}
 
+	public function userLogin(){
+		if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')))){
+		    $user = User::where('username','=',Input::get('username'))->first();
+		    Session::put('theUser', $user);
+		    return Redirect::to('admin');
+		} else {
+			return Redirect::to('/')->with('message', 'Username atau Password tidak tepat, silahkan coba lagi');
+		}
+	}
+
+	public function logout() {
+	   Auth::logout();
+	   $theUser = Session::get('theUser');
+	   $user = User::find($theUser->id);
+	   $user->last_login = date("Y-m-d H:i:s");
+	   $user->save();	   
+	   Session::destroy();
+
+	   return Redirect::to('/')->with('message', 'Anda sudah Log Out!');
+	}
+
 	public function insertUser(){
 		$user = new User;
 
 		$user->username = Input::get('username');
-		$user->passwd 	= Hash::make(Input::get('passwd'));
+		$user->password	= Hash::make(Input::get('passwd'));
 		$user->name 	= Input::get('name');
 		$user->email	= Input::get('email');
 		$user->contact 	= Input::get('contact');
@@ -26,11 +47,12 @@ class ActionController extends \BaseController {
 		$user->save();
 
 		if(Input::get('level') == '3'){
-			$par = Participant;
+			$par = new Participant;
 
 			$par->name = Input::get('name');
 			$par->email = Input::get('email');
-			$par->created_by = 1;
+			$par->contact = Input::get('contact');
+			$par->created_by = Session::get('theUser')->id;
 
 			$par->save();
 		}
@@ -53,68 +75,60 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-activity');
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+	public function insertQuestion(){
+		$quest = new Question;
+		$inp = Input::all();
+
+		$quest->question = $inp['question'];
+		$quest->optA = $inp['optA'];
+		$quest->optB = $inp['optB'];
+		$quest->optC = $inp['optC'];
+		$quest->optD = $inp['optD'];
+		$quest->optE = $inp['optE'];
+		$quest->answer = $inp['answer'];
+		$quest->type = 1;
+		$quest->test_id = $inp['test_id'];
+
+		$quest->save();
+
+		return Redirect::to('admin/list-question/'.$inp['test_id']);
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
+	public function insertContest(){
+
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
+	public function insertGroup(){
+		$theUser = Session::get('theUser');
+
+		$group = new Group;
+		$inp = Input::all();
+
+		$group->name = $inp['name'];
+		$group->advisor = $inp['advisor'];
+		$group->contact = $inp['contact'];
+		$group->contest_id = $inp['contest_id'];
+		$groupSave = $group->save();
+
+		$member1 = Participant::find($inp['participant_id1']);
+		$member1->groupMember()->attach($groupSave->id, array('role', '1'));
+
+		if(Input::has('check2'))){
+			$member2 = Participant::create( array('nim'=>$inp->nim2, 'name'=>$inp->name2, 
+						'email'=>$inp->email2, 'contact'=>'-', 'created_by'=>$theUser->id) );
+			$member2->groupMember()->attach($groupSave->id, array('role', '2'));
+		}
+
+		if(Input::has('check3')){
+			$member3 = Participant::create( array('nim'=>$inp->nim3, 'name'=>$inp->name3, 
+						'email'=>$inp->email3, 'contact'=>'-', 'created_by'=>$theUser->id) );
+			$member3->groupMember()->attach($groupSave->id, array('role', '2'));
+		}
+
+		return Redirect::to('admin/list-question/'.$inp['test_id'])->with('message', 'Berhasil Membuatnya');
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+	public function insertMessage(){
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
 	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 }

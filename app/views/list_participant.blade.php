@@ -22,7 +22,7 @@
 <div class="grid_12">
             
     <div class="box round first fullpage">
-        <h2>Form Group Lomba</h2>
+        <h2>List Partisipan Lomba</h2>
         <div class="block">
 			<table class="data display datatable" id="example">
 				<thead>
@@ -40,11 +40,12 @@
 						<td> {{$data['nim']}} </td>
 						<td> {{$data['name']}} </td>
 						<td> {{$data['email']}} </td>
-						<td class="center"> {{data['contact']}} </td>
+						<td class="center"> {{$data['contact']}} </td>
 						<td>
 							<ul>	
-								@foreach($contests as $con)
-								<li>{{$con['name'].'('.$con['role'].')'}}</li>
+								@foreach($data['contests'] as $con)
+								<li>{{$con->name.'('.$con->role.')'}}</li>								
+								@endforeach	
 								<li>{{HTML::link('admin/create-group/'.$data['id'], '[Tambah Lomba]')}}</li>
 							</ul>
 						</td>

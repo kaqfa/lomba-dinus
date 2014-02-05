@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Transdmin Light</title>
+<title>Tes Online Lomba Keamanan Jaringan</title>
 
 <!-- CSS -->
 {{HTML::style('transdmin/style/css/transdmin.css')}}
@@ -21,9 +21,9 @@
         
         <!-- You can name the links with lowercase, they will be transformed to uppercase by CSS, we prefered to name them with uppercase to have the same effect with disabled stylesheet -->
         <ul id="mainNav">
-        	<li><a href="#" class="active">DASHBOARD</a></li> <!-- Use the "active" class for the active menu item  -->
-        	<li><a href="#">SIMPAN SEMENTARA</a></li>
-        	<li class="logout"><a href="#">SELESAI</a></li>
+        	<li><a href="javascript:void()" class="active">LOMBA KEAMANAN JARINGAN</a></li><!-- Use the "active" class for the active menu item  -->
+        	<li class="logout"> {{HTML::link('/admin', 'SELESAI')}} </li>
+            <li class="logout"><a href="#">SIMPAN SEMENTARA</a></li>
         </ul>
         <!-- // #end mainNav -->
         
@@ -32,7 +32,7 @@
         		<div id="sidebar">
                 	@section('testMenu')
                     <ul class="sideNav">
-                        @for($num = 1; $num <= 15; $num++)
+                        @for($num = 1; $num <= count($leftMenu); $num++)
                     	<li>@if($num == Request::segment(3))
                             {{HTML::link('/admin/test/'.$num, 'Soal Nomer '.$num, array('class'=>'active'))}}
                             @else
@@ -46,13 +46,9 @@
                 </div>    
                 <!-- // #sidebar -->
                 
-                <!-- h2 stays for breadcrumbs -->
-                <h2><a href="#">Dashboard</a> &raquo; <a href="#" class="active">Print resources</a></h2>
+
+                @yield('test-area')
                 
-                <div id="main">
-                    @yield('test-area')
-                </div>
-                <!-- // #main -->
                 
                 <div class="clear"></div>
             </div>

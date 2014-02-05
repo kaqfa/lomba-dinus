@@ -9,7 +9,8 @@ class AdminController extends BaseController {
 		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
 		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');
 		View::share('contestMenu', Activity::get(array('id','name')));
-	}
+		$this->beforeFilter('auth');
+	}	
 
 	public function dashboard()
 	{
@@ -35,14 +36,15 @@ class AdminController extends BaseController {
 	}
 
 	public function listParticipant(){
-		$this->data['participants'] = Participant::all()->toArray;
+		$this->data['participants'] = Participant::all()->toArray();		
 		$i = 0;
-		foreach ($data['participants'] as $data) {
-			$contests = DB::select('select g.name as contest,  from groups g 
-					join group_members gm on (g.id = gm.groups_id)
-					join contest c on (c.id = g.contest_id)
+		foreach ($this->data['participants'] as $data) {
+			$contests = DB::select('select g.name as contest from groups g 
+					join group_member gm on (g.id = gm.group_id)
+					join contests c on (c.id = g.contest_id)
 					where gm.participant_id = ?', array($data['id']));
-			$this->data['participants'][$i]['contests'] = $contests->toArray();
+			$this->data['participants'][$i]['contests'] = $contests;
+			//print_r($this->data['participants'][$i]);
 			$i++;
 		}
 
@@ -62,15 +64,24 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('list_contest', $this->data);
 	}
 
-	public function createGroup(){
-		$this->layout->content = View::make('form_group');
+	public function createGroup($partId){
+		$this->data['participant'] = Participant::find($partId);
+		$this->data['participantId'] = $partId;
+		$contests = Contest::all(array('id', 'name'));
+		$i = 0;		
+		foreach ($contests as $data) {
+			$this->data['contests'][$data['id']] = $data['name'];
+			$i++;
+		}
+		
+		$this->layout->content = View::make('form_group', $this->data);
 	}
 
 	public function listGroup(){		
 		$q = 'select g.id as id, g.name as name, p.name as leader, advisor, 
 					 g.contact as contact, c.name as contest
 					from groups g 
-					join group_members gm on (group_id = g.id)
+					join group_member gm on (group_id = g.id)
 					join participants p on (gm.participant_id = p.id)
 					join contests c on (c.id = g.contest_id)
 					where gm.role = ? ';
@@ -84,9 +95,31 @@ class AdminController extends BaseController {
 	}	
 
 	public function listActivity(){
-		$this->data['acts'] = Activity::all()->toArray();
-
+		$this->data['acts'] = Activity::with('contest')->get()->toArray();
+		//print_r(DB::getQueryLog());
 		$this->layout->content = View::make('list_activity', $this->data);
+	}
+
+	public function createTest(){
+
+	}
+
+	public function listTest(){
+		$this->data['tests'] = Test::all()->toArray();
+		$this->layout->content = View::make('list_test', $this->data);
+	}
+
+	public function createQuestion($testId){
+		$this->data['testId'] = $testId;
+		$this->layout->content = View::make('form_question', $this->data);
+	}
+
+	public function listQuestion($testId){
+		$test = Test::find($testId);
+		$this->data['testName'] = $test->name;		
+		$this->data['testId'] 	= $test->id;
+		$this->data['quests'] 	= Question::where('test_id', '=', $testId)->get();		
+		$this->layout->content 	= View::make('list_question', $this->data);
 	}
 
 	public function contestAct($id){
@@ -97,7 +130,7 @@ class AdminController extends BaseController {
 		if($this->data['act']['type'] != '3'){
 			$this->layout->content = View::make('form_act_contest', $this->data);
 		} else {
-			$this->data['pageNum'] = 1;
+			$this->data['pageNum'] = 1;			
 			$this->layout->content = View::make('test_welcome', $this->data);
 		}
 	}

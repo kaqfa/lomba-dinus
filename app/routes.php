@@ -18,28 +18,53 @@ Route::get('/trans', function(){
 Route::group(array('prefix'=>'/admin'), function()
 {
 	Route::any('/', 'AdminController@dashboard');
+	Route::post('/login', 'ActionController@userLogin');
+	Route::get('/logout', 'ActionController@logout');
 
 	Route::get('/create-user', 'AdminController@createUser');
-	Route::get('/create-group', 'AdminController@createGroup');	
+	Route::get('/create-group/{partId}', 'AdminController@createGroup');	
 	Route::get('/create-contest', 'AdminController@createContest');
 	Route::get('/create-activity', 'AdminController@createActivity');
+	Route::get('/create-question/{testId}', 'AdminController@createQuestion');
 
 	Route::get('/list-user', 'AdminController@listUser');
 	Route::get('/list-group', 'AdminController@listGroup');
 	Route::get('/list-contest', 'AdminController@listContest');
 	Route::get('/list-activity', 'AdminController@listActivity');
 	Route::get('/list-participant', 'AdminController@listParticipant');
+	Route::get('/list-test', 'AdminController@listTest');
+	Route::get('/list-question/{testId}', 'AdminController@listQuestion');
 
 	Route::get('/edit-user/{id}', 'AdminController@editUser');
 
 	Route::post('/user/insert', 'ActionController@insertUser');
 	Route::post('/activity/insert', 'ActionController@insertActivity');
+	Route::post('/question/insert', 'ActionController@insertQuestion');
+	Route::post('/group/insert', 'ActionController@insertGroup');
 
-	Route::get('/contest-act/{id}', 'AdminController@contestAct');
+	Route::get('/contest-act/{id}', 'AdminController@contestAct');	
 
 	Route::get('/test/{num}', 'ContestController@index');
 });
 
+Route::get('/insertGroup', function(){
+	$part = Participant::create( array('nim'=>'A12345', 'name'=>'Giyan Ayu', 
+			'email'=>'gigiyayan@gmail.com', 'contact'=>'0987654321', 
+			'created_by'=>'1') );
+	$group = Group::create(array('name'=>'group hura2', 'advisor'=>'sembarang',
+			'contact'=>'0987665123', 'contest_id'=>'1'));
+
+	$part->groupMember()->attach($group->id, array('role'=>'1'));
+});
+
+Route::get('/delGroup', function(){
+	$part = Participant::where('nim', '=', 'A12345')->first();
+	$group = Group::where('name', '=','group hura2')->first();
+	Participant::where('nim', '=', 'A12345')->delete();
+	Group::where('name', '=','group hura2')->delete();
+	$part->groupMember()->detach($group->id);
+
+});
 
 Route::get('/', function()
 {

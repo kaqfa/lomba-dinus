@@ -6,7 +6,8 @@ class ContestController extends \BaseController {
 	protected $data = array();
 
 	public function __construct(){
-		//View::share('pageNum', Input);
+		$quests = Question::get(array('id'))->toArray();
+		View::share('leftMenu', $quests);
 	}
 
 	/**
@@ -16,6 +17,8 @@ class ContestController extends \BaseController {
 	 */
 	public function index($num)
 	{
+		$this->data['numQuest'] = $num;
+		$this->data['quest'] = Question::find($num);
 		$this->layout->content =  View::make('test.test', $this->data);
 	}
 
