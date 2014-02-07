@@ -5,15 +5,21 @@
 	{{ HTML::style('bluewhale/css/fancy-button/fancy-button.css') }}
 	{{ HTML::script('bluewhale/js/fancy-button/fancy-button.js') }} 
 
-	{{HTML::style('bluewhale/css/table/demo_page.css')}}	
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.accordion.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.mouse.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.sortable.min.js') }} 
-	{{ HTML::script('bluewhale/js/table/jquery.dataTables.min.js') }} 	
+	{{HTML::style('datatable/css/demo_page.css')}}	
+	{{HTML::style('datatable/css/demo_table_jui.css')}}	
+	{{HTML::style('jqui/themes/start/jquery-ui-1.10.4.custom.min.css')}}	
+
+	{{ HTML::script('jqui/ui/minified/jquery.ui.accordion.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.mouse.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.sortable.min.js') }} 	
+	{{ HTML::script('datatable/js/jquery.dataTables.min.js') }} 	
 	
 	<script type="text/javascript">
-        $(document).ready(function () {            
-            $('.datatable').dataTable();			
+       $(document).ready(function () {            
+            $('.datatable').dataTable({
+		        "bJQueryUI": true,
+		        "sPaginationType": "full_numbers"
+		    });			
         });
     </script>  
 @stop
@@ -44,9 +50,9 @@
 						<td>
 							<ul>	
 								@foreach($data['contests'] as $con)
-								<li>{{$con->name.'('.$con->role.')'}}</li>								
+								<li><strong>{{$con->contest}}</strong></li>
 								@endforeach	
-								<li>{{HTML::link('admin/create-group/'.$data['id'], '[Tambah Lomba]')}}</li>
+								<li>{{HTML::link('admin/create-group/'.$data['id'], 'Tambah Lomba', array('class'=>'small-button green'))}}</li>
 							</ul>
 						</td>
 					</tr>

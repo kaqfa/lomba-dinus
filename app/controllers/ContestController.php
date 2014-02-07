@@ -6,7 +6,7 @@ class ContestController extends \BaseController {
 	protected $data = array();
 
 	public function __construct(){
-		$quests = Question::get(array('id'))->toArray();
+		$quests = Question::take(Config::get('contest.question-num'))->get(array('id'))->toArray();		
 		View::share('leftMenu', $quests);
 	}
 

@@ -5,15 +5,21 @@
 	{{ HTML::style('bluewhale/css/fancy-button/fancy-button.css') }}
 	{{ HTML::script('bluewhale/js/fancy-button/fancy-button.js') }} 
 
-	{{HTML::style('bluewhale/css/table/demo_page.css')}}	
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.accordion.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.mouse.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.sortable.min.js') }} 
-	{{ HTML::script('bluewhale/js/table/jquery.dataTables.min.js') }} 	
+	{{HTML::style('datatable/css/demo_page.css')}}	
+	{{HTML::style('datatable/css/demo_table_jui.css')}}
+
+
+	{{ HTML::script('jqui/ui/minified/jquery.ui.accordion.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.mouse.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.sortable.min.js') }} 	
+	{{ HTML::script('datatable/js/jquery.dataTables.min.js') }}	
 	
 	<script type="text/javascript">
         $(document).ready(function () {            
-            $('.datatable').dataTable();
+            $('.datatable').dataTable({
+		        "bJQueryUI": true,
+		        "sPaginationType": "full_numbers"
+		    });
             $('[name=check2]').click(function(){
 	        	if( $('[name=check2]').prop( "checked" ) ){	        		
 	        		$('[name="nim2"]').removeAttr('disabled');
@@ -70,6 +76,7 @@
 					<td> {{Form::select('contest_id', $contests)}} </td>
 				</tr>
 			</table>
+			<h4 style="font-size: 13px; margin-top:15px; width: 100%;  text-align:center;">Daftar Anggota Group</h4>
 			<?php $role = array('1'=>'Ketua', '2'=>'Anggota'); ?>
 			<table class="data display datatable" id="example">
 				<thead>
@@ -111,7 +118,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<center>{{Form::submit('Simpan Kelompok')}}</center>
+			<center>{{Form::submit('Simpan Kelompok', array('class'=>'big-button'))}}</center>
 			{{Form::close()}}
         </div>
     </div>    

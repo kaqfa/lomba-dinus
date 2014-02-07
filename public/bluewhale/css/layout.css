@@ -631,12 +631,7 @@ img.right
 
 .table-form{}
 
-
-
 /* PrettyPhoto styling */
-
-
-
 
 .prettygallery{ margin-top:10px; }
 .prettygallery li{display:inline; padding:0px 70px 40px 10px; margin:0px;  float:left; }
@@ -651,66 +646,6 @@ img.right
 	padding:5px;
 	background:#fff;
 	
-}
-
-
-
-
-
-/* Data Tables */
-
-
-.dataTables_info,
-.dataTables_paginate { margin-bottom: 3em; }
-
-.dataTables_wrapper {
-	position: relative;
-	min-height: 302px;
-	clear: both;
-	_height: 302px;
-	zoom: 1; /* Feeling sorry for IE */
-}
-
-.dataTables_processing {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 250px;
-	height: 30px;
-	margin-left: -125px;
-	margin-top: -15px;
-	padding: 14px 0 2px 0;
-	border: 1px solid #ddd;
-	text-align: center;
-	color: #999;
-	font-size: 14px;
-	background-color: white;
-}
-
-.dataTables_length {
-	width: 40%;
-	float: left;
-	margin-bottom: 1em;
-}
-
-.dataTables_filter {
-	width: 50%;
-	float: right;
-	text-align: right;
-	margin-bottom: 1em;
-}
-
-.dataTables_info {
-	width: 60%;
-	float: left;
-	margin-top: 1em; 
-}
-
-.dataTables_paginate {
-
-	float: right;
-	text-align: right;
-	margin-top: 1em; 
 }
 
 /* Pagination nested */
@@ -1131,3 +1066,26 @@ td.details {
 }
 
 .gallery-sand .sorting{background-color:white !important;}
+
+/* *************************************************** */
+/* My Addition :)  Like a Boss */
+/* *************************************************** */
+.big-button{ background: #a9e4f7; background: -moz-linear-gradient(top,  #a9e4f7 0%, #0fb4e7 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a9e4f7), color-stop(100%,#0fb4e7)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #a9e4f7 0%,#0fb4e7 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #a9e4f7 0%,#0fb4e7 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #a9e4f7 0%,#0fb4e7 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #a9e4f7 0%,#0fb4e7 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9e4f7', endColorstr='#0fb4e7',GradientType=0 ); /* IE6-9 */
+	display: inline-block; margin: 10px 0px; padding:5px 12px; color:#623F1D; font-family:'Helvetica Neue',sans-serif; font-size:12px;
+	border-radius:48px; -moz-border-radius:48px; -webkit-border-radius:48px; border:1px solid #623F1D }
+.small-button{-webkit-box-shadow:rgba(0,0,0,0.2) 0 1px 0 0; -moz-box-shadow:rgba(0,0,0,0.2) 0 1px 0 0; 
+	box-shadow:rgba(0,0,0,0.2) 0 1px 0 0; color:#333; border-radius:5px;
+	-moz-border-radius:5px; -webkit-border-radius:5px; border:none; font-family:'Helvetica Neue',Arial,sans-serif;
+	font-size:10.5px; font-weight:700; padding:4px 16px; text-shadow:#FE6 0 1px 0}
+.yellow{background-color:#FA2;} .red{background-color:#ff4f23;} .green{background-color: #0ef96c}
+ul{margin-bottom: 8px;} li{line-height: 20px;}
+
+table.form {width: 850px; margin: auto; border-collapse:separate; border-spacing:5px 5px;}
+table.form td {background-color: #f2f2f2; -moz-border-radius: 15px; border-radius: 5px; padding: 5px 8px;}
+table.form tr td:first-child{ width: 180px;}

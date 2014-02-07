@@ -51,6 +51,7 @@ Route::get('/insertGroup', function(){
 	$part = Participant::create( array('nim'=>'A12345', 'name'=>'Giyan Ayu', 
 			'email'=>'gigiyayan@gmail.com', 'contact'=>'0987654321', 
 			'created_by'=>'1') );
+
 	$group = Group::create(array('name'=>'group hura2', 'advisor'=>'sembarang',
 			'contact'=>'0987665123', 'contest_id'=>'1'));
 
@@ -63,6 +64,7 @@ Route::get('/delGroup', function(){
 	Participant::where('nim', '=', 'A12345')->delete();
 	Group::where('name', '=','group hura2')->delete();
 	$part->groupMember()->detach($group->id);
+	//print_r($part);
 
 });
 

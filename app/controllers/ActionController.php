@@ -28,7 +28,7 @@ class ActionController extends \BaseController {
 	   $user = User::find($theUser->id);
 	   $user->last_login = date("Y-m-d H:i:s");
 	   $user->save();	   
-	   Session::destroy();
+	   Session::flush();
 
 	   return Redirect::to('/')->with('message', 'Anda sudah Log Out!');
 	}
@@ -102,30 +102,39 @@ class ActionController extends \BaseController {
 		$theUser = Session::get('theUser');
 
 		$group = new Group;
-		$inp = Input::all();
+		//$inp = Input::all();
 
-		$group->name = $inp['name'];
-		$group->advisor = $inp['advisor'];
-		$group->contact = $inp['contact'];
-		$group->contest_id = $inp['contest_id'];
-		$groupSave = $group->save();
+		$group->name = Input::get('name');
+		$group->advisor = Input::get('advisor');
+		$group->contact = Input::get('contact');
+		$group->contest_id = Input::get('contest_id');
+		$group->save();
 
-		$member1 = Participant::find($inp['participant_id1']);
-		$member1->groupMember()->attach($groupSave->id, array('role', '1'));
+		$member1 = Participant::find(Input::get('participant_id1'));
+		$member1->nim = Input::get('nim1');
+		$member1->save();
+		
+		//$member1->groupMember()->get(); // attach($groupSave->id, array('role', '1'))
+		DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+					array($member1->id, $group->id, '1', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 
-		if(Input::has('check2'))){
-			$member2 = Participant::create( array('nim'=>$inp->nim2, 'name'=>$inp->name2, 
-						'email'=>$inp->email2, 'contact'=>'-', 'created_by'=>$theUser->id) );
-			$member2->groupMember()->attach($groupSave->id, array('role', '2'));
+		if(Input::has('check2')){
+			$member2 = Participant::create( array('nim'=>Input::get('nim2'), 'name'=>Input::get('name2'), 
+						'email'=>Input::get('email2'), 'contact'=>'-', 'created_by'=>$theUser->id) );
+			//$member2->groupMember()->attach($groupSave->id, array('role', '2'));
+			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+					array($member2->id, $group->id, '1', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
 
 		if(Input::has('check3')){
-			$member3 = Participant::create( array('nim'=>$inp->nim3, 'name'=>$inp->name3, 
-						'email'=>$inp->email3, 'contact'=>'-', 'created_by'=>$theUser->id) );
-			$member3->groupMember()->attach($groupSave->id, array('role', '2'));
+			$member3 = Participant::create( array('nim'=>Input::get('nim3'), 'name'=>Input::get('name3'), 
+						'email'=>Input::get('email3'), 'contact'=>'-', 'created_by'=>$theUser->id) );
+			//$member3->groupMember()->attach($groupSave->id, array('role', '2'));
+			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+					array($member3->id, $group->id, '1', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
-
-		return Redirect::to('admin/list-question/'.$inp['test_id'])->with('message', 'Berhasil Membuatnya');
+		//print_r(DB::getQueryLog());
+		return Redirect::to('admin/list-question/'.Input::get('test_id'))->with('message', 'Berhasil Membuatnya');
 	}
 
 	public function insertMessage(){

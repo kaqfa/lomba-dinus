@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Dashboard | BlueWhale Admin</title>
+    <title>Admin Page | {{Config::get('contest.name')}} </title>
 	{{ HTML::style('bluewhale/css/reset.css') }}
 	{{ HTML::style('bluewhale/css/text.css') }}
 	{{ HTML::style('bluewhale/css/grid.css') }}
@@ -11,6 +11,9 @@
 	{{ HTML::style('bluewhale/css/nav.css') }}    
     <!--[if IE 6]>{{ HTML::style('bluewhale/css/ie6.css') }}<![endif]-->
     <!--[if IE 7]>{{ HTML::style('bluewhale/css/ie.css') }}<![endif]-->
+    <style type="text/css">
+    
+    </style>
 	
 	@section('jslibs')
     <!-- BEGIN: load jquery -->
@@ -63,21 +66,28 @@
                 <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
                 <li class="ic-form-style"><a href="javascript:"><span>Administrasi</span></a>
                     <ul>
-                        <li> {{HTML::link('admin/list-user','Pengguna')}} </li>
+                        <li> {{HTML::link('admin/list-user','Data Pengguna')}} </li>
+                        @if($theUser->level != 2)
                         <li> {{HTML::link('admin/list-group','Group Lomba')}} </li>
+                        @endif
+                        @if($theUser->level == 1)
+                        <li> {{HTML::link('admin/list-participant','List Peserta')}} </li>
                         <li> {{HTML::link('admin/list-contest','Kategori Lomba')}} </li>
                         <li> {{HTML::link('admin/list-activity','Aktivitas')}} </li>
-                        <li> {{HTML::link('admin/list-participant','List Peserta')}} </li>                        
+                        @endif
                     </ul>
                 </li>
+                @if($theUser->level == 3)
                 <li class="ic-grid-tables"><a href="javascript:"><span>Aktivitas Lomba</span></a>
                     <ul>
                     @foreach($contestMenu as $menu)
                         <li>{{HTML::link('admin/contest-act/'.$menu->id,$menu->name)}}</li>
                     @endforeach
                     </ul>
-                </li>                
-                @if($theUser->level == 1)
+                </li>
+                @endif
+
+                @if($theUser->level != 3)
                 <li class="ic-charts"><a href="javascript:"><span>Test Online</span></a> 
                     <ul>
                         <li> {{HTML::link('admin/list-test','Manajemen Test')}} </li>

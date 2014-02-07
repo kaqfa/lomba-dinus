@@ -19,8 +19,7 @@
 @stop
 
 @section('mainarea')
-<div class="grid_12">
-            
+<div class="grid_12">            
     <div class="box round first fullpage">
         <h2>Form Aktifitas Lomba</h2>
         <div class="block">

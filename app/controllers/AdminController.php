@@ -85,7 +85,7 @@ class AdminController extends BaseController {
 					join participants p on (gm.participant_id = p.id)
 					join contests c on (c.id = g.contest_id)
 					where gm.role = ? ';
-		$this->data['groups'] = DB::select($q, array('advisor'));
+		$this->data['groups'] = DB::select($q, array('1'));
 
 		$this->layout->content = View::make('list_group', $this->data);
 	}

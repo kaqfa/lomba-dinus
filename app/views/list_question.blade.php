@@ -5,15 +5,21 @@
 	{{ HTML::style('bluewhale/css/fancy-button/fancy-button.css') }}
 	{{ HTML::script('bluewhale/js/fancy-button/fancy-button.js') }} 
 
-	{{HTML::style('bluewhale/css/table/demo_page.css')}}	
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.accordion.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.mouse.min.js') }} 
-	{{ HTML::script('bluewhale/js/jquery-ui/jquery.ui.sortable.min.js') }} 
-	{{ HTML::script('bluewhale/js/table/jquery.dataTables.min.js') }} 	
+	{{HTML::style('datatable/css/demo_page.css')}}	
+	{{HTML::style('datatable/css/demo_table_jui.css')}}	
+	{{HTML::style('jqui/themes/start/jquery-ui-1.10.4.custom.min.css')}}	
+
+	{{ HTML::script('jqui/ui/minified/jquery.ui.accordion.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.mouse.min.js') }} 
+	{{ HTML::script('jqui/ui/minified/jquery.ui.sortable.min.js') }} 	
+	{{ HTML::script('datatable/js/jquery.dataTables.min.js') }} 	
 	
 	<script type="text/javascript">
-        $(document).ready(function () {            
-            $('.datatable').dataTable();			
+       $(document).ready(function () {            
+            $('.datatable').dataTable({
+		        "bJQueryUI": true,
+		        "sPaginationType": "full_numbers"
+		    });			
         });
     </script>  
 @stop
@@ -24,7 +30,7 @@
     <div class="box round first fullpage">
         <h2>List Soal Untuk Tes {{$testName}} </h2>
         <div class="block">
-        	{{HTML::link('admin/create-question/'.$testId,'[Tambah Soal Tes]')}}
+        	{{HTML::link('admin/create-question/'.$testId,'+ Tambah Soal Tes', array('class'=>'big-button'))}}
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>
@@ -41,8 +47,8 @@
 						<td> {{HTML::ol(array($data['optA'], $data['optB'], $data['optC'], $data['optD'], $data['optE']))}} </td>
 						<td> {{$data['answer']}} </td>
 						<td>
-							{{HTML::link('admin/edit-question/'.$data['id'], '[edit]')}} ||  
-							{{HTML::link('admin/del-contest/'.$data['id'], '[del]')}} 
+							{{HTML::link('admin/edit-question/'.$data['id'], 'edit', array('class'=>'small-button yellow'))}} 
+							{{HTML::link('admin/del-contest/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
 						</td>
 					</tr>
 					@endforeach
