@@ -34,7 +34,13 @@ class ActionController extends \BaseController {
 	}
 
 	public function insertUser(){
-		$user = new User;
+		$user = null;
+
+		if(Input::has('id')){
+			$user = User::find(Input::get('id'));
+		} else {
+			$user = new User;
+		}
 
 		$user->username = Input::get('username');
 		$user->password	= Hash::make(Input::get('passwd'));
@@ -47,12 +53,19 @@ class ActionController extends \BaseController {
 		$user->save();
 
 		if(Input::get('level') == '3'){
-			$par = new Participant;
+			$par = null;
+
+			if(Input::has('id')){
+				$par = Participant::where('user_id', Input::get('id'))->first();
+			} else {
+				$par = new Participant;
+			}
 
 			$par->name = Input::get('name');
 			$par->email = Input::get('email');
 			$par->contact = Input::get('contact');
 			$par->created_by = Session::get('theUser')->id;
+			$par->user_id = Input::get($user->id);
 
 			$par->save();
 		}

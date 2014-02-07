@@ -28,9 +28,8 @@
 <div class="grid_12">
             
     <div class="box round first fullpage">
-        <h2>List Pengguna Sistem</h2>
-        <div class="block">
-        	{{HTML::link('admin/create-group','+ Tambah Group', array('class'=>'big-button'))}}
+        <h2>List Group Lomba</h2>
+        <div class="block">        	
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>

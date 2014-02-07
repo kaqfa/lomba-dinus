@@ -50,7 +50,35 @@
         
     </script>  
 @stop
+<?php	
+	$participant = array();
+	if(isset($valGroup)){ // if edit group	
+		$i = 0;
+		foreach ($members as $member) {
+			$participant[$i]['id'] 		= $member->id;
+			$participant[$i]['nim'] 	= $member->nim;
+			$participant[$i]['name'] 	= $member->name;
+			$participant[$i]['email'] 	= $member->email;
+			$i++;
+		}
+	} else { // if create group
+		$valGroup = new stdClass();
+		$valGroup->name = '';
+		$valGroup->advisor = '';
+		$valGroup->contact = '';
+		$valGroup->contest_id = 1;
 
+		$participant = array();
+
+		for ($i = 0; $i < 3; $i++) {
+			$participant[$i]['id'] 		= 0;
+			$participant[$i]['nim'] 	= '';
+			$participant[$i]['name'] 	= '';
+			$participant[$i]['email'] 	= '';			
+		}
+		$participant[0]['id'] = $participantId;
+	}
+?>
 @section('mainarea')
 <div class="grid_12">
             
@@ -61,21 +89,22 @@
 			<table class="form">
 				<tr>
 					<td> {{Form::label('name', 'Nama Group')}} </td>
-					<td> {{Form::text('name', null, array('class'=>'mini'))}} </td>
+					<td> {{Form::text('name', $valGroup->name, array('class'=>'medium'))}} </td>
 				</tr>
 				<tr>
 					<td> {{Form::label('advisor', 'Nama Pembimbing')}} </td>
-					<td> {{Form::text('advisor')}} </td>
+					<td> {{Form::text('advisor', $valGroup->advisor, array('class'=>'medium'))}} </td>
 				</tr>
 				<tr>
 					<td> {{Form::label('contact', 'Nomor (Hand)Phone')}} </td>
-					<td> {{Form::text('contact')}} </td>
+					<td> {{Form::text('contact', $valGroup->contact)}} </td>
 				</tr>									
 				<tr>
 					<td> {{Form::label('contest_id', 'Kategori Lomba')}} </td>
-					<td> {{Form::select('contest_id', $contests)}} </td>
+					<td> {{Form::select('contest_id', $contests, $valGroup->contest_id)}} </td>
 				</tr>
 			</table>
+
 			<h4 style="font-size: 13px; margin-top:15px; width: 100%;  text-align:center;">Daftar Anggota Group</h4>
 			<?php $role = array('1'=>'Ketua', '2'=>'Anggota'); ?>
 			<table class="data display datatable" id="example">
@@ -91,28 +120,30 @@
 				</thead>
 				<tbody>
 					<tr class="odd gradeX">
-						{{Form::hidden('participant_id1', $participantId)}}
+						{{Form::hidden('participant_id1', $participant[0]['id'])}}
 						{{Form::hidden('check1', 1)}}
 						<td> {{Form::checkbox('checkFalse', 1, true, array('disabled'=>'disabled'))}} </td>
-						<td> {{Form::text('nim1')}} </td>
-						<td> {{Form::text('name1', $participant->name, array('readonly'=>'readonly'))}} </td>
-						<td> {{Form::email('email1', $participant->email, array('readonly'=>'readonly'))}} </td>
+						<td> {{Form::text('nim1', $participant[0]['nim'])}} </td>
+						<td> {{Form::text('name1', $participant[0]['name'], array('readonly'=>'readonly'))}} </td>
+						<td> {{Form::email('email1', $participant[0]['email'], array('readonly'=>'readonly'))}} </td>
 						<td class="center"> {{Form::file('ktm_file1')}} </td>
 						<td class="center"> Ketua </td>
 					</tr>
 					<tr class="even gradeC">
+						{{Form::hidden('participant_id2', $participant[1]['id'])}}
 						<td> {{Form::checkbox('check2', 1, false )}} </td>
-						<td> {{Form::text('nim2', '', array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::text('name2', '', array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::email('email2', '', array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::text('nim2',  $participant[1]['nim'], array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::text('name2',  $participant[1]['name'], array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::email('email2',  $participant[1]['email'], array('disabled'=>'disabled') )}} </td>
 						<td class="center"> {{Form::file('ktm_file2', array('disabled'=>'disabled') )}} </td>
 						<td class="center"> Anggota </td>
 					</tr>
 					<tr class="odd gradeX">
+						{{Form::hidden('participant_id3', $participant[2]['id'])}}
 						<td> {{Form::checkbox('check3', 1, false )}} </td>
-						<td> {{Form::text('nim3', '', array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::text('name3', '', array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::email('email3', '', array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::text('nim3',  $participant[2]['nim'], array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::text('name3',  $participant[2]['name'], array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::email('email3',  $participant[2]['email'], array('disabled'=>'disabled') )}} </td>
 						<td class="center"> {{Form::file('ktm_file3', array('disabled'=>'disabled') )}} </td>
 						<td class="center"> Anggota </td>
 					</tr>

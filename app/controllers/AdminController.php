@@ -23,7 +23,7 @@ class AdminController extends BaseController {
 	}
 	
 	public function editUser($idUser){
-		$this->data['user'] = User::find($idUser);
+		$this->data['valUser'] = User::find($idUser);
 		$this->data['action'] = 'Memperbaharui';
 		
 		$this->layout->content = View::make('form_user', $this->data);
@@ -55,6 +55,10 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_contest', array('action'=>'Menambahkan'));
 	}
 
+	public function editContest(){
+
+	}
+
 	public function listContest(){
 		$q = 'select id,name,description,
 				(select count(*) from groups where contest_id = c.id) as groupnum
@@ -64,16 +68,33 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('list_contest', $this->data);
 	}
 
-	public function createGroup($partId){
-		$this->data['participant'] = Participant::find($partId);
-		$this->data['participantId'] = $partId;
+	private function selectContest(){
+		$select = array();
 		$contests = Contest::all(array('id', 'name'));
 		$i = 0;		
 		foreach ($contests as $data) {
-			$this->data['contests'][$data['id']] = $data['name'];
+			$select[$data['id']] = $data['name'];
 			$i++;
 		}
+
+		return $select;
+	}
+
+	public function createGroup($partId){
+		$this->data['participant'] = Participant::find($partId);
+		$this->data['participantId'] = $partId;
+		$this->data['contests'] = $this->selectContest();
 		
+		$this->layout->content = View::make('form_group', $this->data);
+	}	
+
+	public function editGroup($groupId){
+		$this->data['valGroup'] = Group::find($groupId);
+		$this->data['members'] 	= $this->data['valGroup']->groupMember()->withPivot('role')->orderBy('role')->get();
+		$this->data['contests'] = $this->selectContest();
+
+		//print_r($this->data['members']);
+
 		$this->layout->content = View::make('form_group', $this->data);
 	}
 
@@ -94,6 +115,10 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_activity');
 	}	
 
+	public function editActivity(){
+
+	}
+
 	public function listActivity(){
 		$this->data['acts'] = Activity::with('contest')->get()->toArray();
 		//print_r(DB::getQueryLog());
@@ -101,6 +126,10 @@ class AdminController extends BaseController {
 	}
 
 	public function createTest(){
+
+	}
+
+	public function editTest(){
 
 	}
 
@@ -112,6 +141,10 @@ class AdminController extends BaseController {
 	public function createQuestion($testId){
 		$this->data['testId'] = $testId;
 		$this->layout->content = View::make('form_question', $this->data);
+	}
+
+	public function editQuestion(){
+
 	}
 
 	public function listQuestion($testId){
