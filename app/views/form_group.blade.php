@@ -50,8 +50,7 @@
         
     </script>  
 @stop
-<?php	
-	$participant = array();
+<?php		
 	if(isset($valGroup)){ // if edit group	
 		$i = 0;
 		foreach ($members as $member) {
@@ -61,22 +60,32 @@
 			$participant[$i]['email'] 	= $member->email;
 			$i++;
 		}
+
+		for ($j = $i; $j < 3; $j++) {
+			$participant[$j]['id'] 		= 0;
+			$participant[$j]['nim'] 	= '';
+			$participant[$j]['name'] 	= '';
+			$participant[$j]['email'] 	= '';			
+		}
 	} else { // if create group
 		$valGroup = new stdClass();
 		$valGroup->name = '';
 		$valGroup->advisor = '';
-		$valGroup->contact = '';
+		$valGroup->contact = $part->contact;
 		$valGroup->contest_id = 1;
 
-		$participant = array();
+		$participant[0]['id'] 		= $part->id;
+		$participant[0]['nim'] 		= $part->nim;
+		$participant[0]['name'] 	= $part->name;
+		$participant[0]['email'] 	= $part->email;
 
-		for ($i = 0; $i < 3; $i++) {
+		for ($i = 1; $i < 3; $i++) {
 			$participant[$i]['id'] 		= 0;
 			$participant[$i]['nim'] 	= '';
 			$participant[$i]['name'] 	= '';
 			$participant[$i]['email'] 	= '';			
 		}
-		$participant[0]['id'] = $participantId;
+		//$participant[0]['id'] = $participantId;
 	}
 ?>
 @section('mainarea')
@@ -85,7 +94,11 @@
     <div class="box round first fullpage">
         <h2>Form Group Lomba</h2>
         <div class="block">
-            {{ Form::open(array('url'=>'admin/group/insert')) }}            
+        @if(isset($valGroup))
+        	{{ Form::open(array('url'=>'admin/group/edit')) }}
+        @else
+        	{{ Form::open(array('url'=>'admin/group/insert')) }}
+        @endif
 			<table class="form">
 				<tr>
 					<td> {{Form::label('name', 'Nama Group')}} </td>
@@ -130,21 +143,25 @@
 						<td class="center"> Ketua </td>
 					</tr>
 					<tr class="even gradeC">
+					<?php if($participant[1]['id'] > 0){ $cb = true; $disabled = array(); } 
+								else { $cb = false; $disabled = array('disabled'=>'disabled'); }  ?>
 						{{Form::hidden('participant_id2', $participant[1]['id'])}}
-						<td> {{Form::checkbox('check2', 1, false )}} </td>
-						<td> {{Form::text('nim2',  $participant[1]['nim'], array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::text('name2',  $participant[1]['name'], array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::email('email2',  $participant[1]['email'], array('disabled'=>'disabled') )}} </td>
-						<td class="center"> {{Form::file('ktm_file2', array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::checkbox('check2', 1, $cb )}} </td>
+						<td> {{Form::text('nim2',  $participant[1]['nim'], $disabled )}} </td>
+						<td> {{Form::text('name2',  $participant[1]['name'], $disabled )}} </td>
+						<td> {{Form::email('email2',  $participant[1]['email'], $disabled )}} </td>
+						<td class="center"> {{Form::file('ktm_file2', $disabled )}} </td>
 						<td class="center"> Anggota </td>
 					</tr>
 					<tr class="odd gradeX">
+					<?php if($participant[2]['id'] > 0){ $cb = true; $disabled = array(); } 
+								else { $cb = false; $disabled = array('disabled'=>'disabled'); }  ?>
 						{{Form::hidden('participant_id3', $participant[2]['id'])}}
-						<td> {{Form::checkbox('check3', 1, false )}} </td>
-						<td> {{Form::text('nim3',  $participant[2]['nim'], array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::text('name3',  $participant[2]['name'], array('disabled'=>'disabled') )}} </td>
-						<td> {{Form::email('email3',  $participant[2]['email'], array('disabled'=>'disabled') )}} </td>
-						<td class="center"> {{Form::file('ktm_file3', array('disabled'=>'disabled') )}} </td>
+						<td> {{Form::checkbox('check3', 1, $cb )}} </td>
+						<td> {{Form::text('nim3',  $participant[2]['nim'], $disabled )}} </td>
+						<td> {{Form::text('name3',  $participant[2]['name'], $disabled )}} </td>
+						<td> {{Form::email('email3',  $participant[2]['email'], $disabled )}} </td>
+						<td class="center"> {{Form::file('ktm_file3', $disabled )}} </td>
 						<td class="center"> Anggota </td>
 					</tr>
 				</tbody>

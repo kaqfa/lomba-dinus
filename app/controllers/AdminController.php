@@ -81,7 +81,7 @@ class AdminController extends BaseController {
 	}
 
 	public function createGroup($partId){
-		$this->data['participant'] = Participant::find($partId);
+		$this->data['part'] = Participant::find($partId);
 		$this->data['participantId'] = $partId;
 		$this->data['contests'] = $this->selectContest();
 		
