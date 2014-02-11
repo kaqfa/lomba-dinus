@@ -96,6 +96,7 @@
         <div class="block">
         @if(isset($valGroup))
         	{{ Form::open(array('url'=>'admin/group/edit')) }}
+        	{{Form::hidden('groupId',$valGroup->id)}}
         @else
         	{{ Form::open(array('url'=>'admin/group/insert')) }}
         @endif

@@ -18,6 +18,18 @@
 	</script>   
 @stop
 
+<?php
+if(!isset($activity)){
+	$activity = new StdClass();
+
+	$activity->name = '';
+	$activity->description = '';
+	$activity->contest_id = '';
+	$activity->date_from = '';
+	$activity->date_until = '';
+}
+?>
+
 @section('mainarea')
 <div class="grid_12">
             
@@ -28,24 +40,24 @@
 				<table class="form">
 					<tr>
 						<td> {{Form::label('name', 'Nama Aktifitas')}} </td>
-						<td> {{Form::text('name', null, array('class'=>'mini'))}} </td>
+						<td> {{Form::text('name', $activity->name, array('class'=>'mini'))}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('description', 'Deskripsi Aktifitas')}} </td>
-						<td> {{Form::textarea('description')}} </td>
+						<td> {{Form::textarea('description', $activity->description)}} </td>
 					</tr>	
 					<tr>
 						<td> {{Form::label('contest_id', 'Untuk Lomba')}} </td>
-						<td> {{Form::select('contest_id', array('1'=>'Aplikasi Inovatif'))}} </td>
+						<td> {{Form::select('contest_id', $contestMenu, $activity->contest_id)}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('date_from', 'Mulai Aktifitas')}} </td>
-						<td> {{Form::text('date_from', null, array('class'=>'datepicker'))}}  
+						<td> {{Form::text('date_from', $activity->date_from, array('class'=>'datepicker'))}}  
 							<small>yyyy-mm-dd</small></td>
 					</tr>
 					<tr>
 						<td> {{Form::label('date_until', 'Akhir Aktifitas')}} </td>
-						<td> {{Form::text('date_until', null, array('class'=>'datepicker'))}} 
+						<td> {{Form::text('date_until', $activity->date_until, array('class'=>'datepicker'))}} 
 							<small>yyyy-mm-dd</small></td>
 					</tr>
 					<tr>
@@ -55,7 +67,7 @@
 					<tr>
 						<td>&nbsp;</td>
 						<td>
-							{{Form::submit('Input Aktifitas Lomba')}}
+							{{Form::submit('Simpan Aktifitas Lomba')}}
 						</td>
 					</tr>
 				</table>

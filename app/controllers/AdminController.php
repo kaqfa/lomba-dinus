@@ -7,10 +7,22 @@ class AdminController extends BaseController {
 
 	public function __construct(){
 		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
-		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');
-		View::share('contestMenu', Activity::get(array('id','name')));
+		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');		
+		View::share('contestMenu', $this->selectContest());
 		$this->beforeFilter('auth');
 	}	
+
+	private function selectContest(){
+		$select = array();
+		$contests = Contest::all(array('id', 'name'));
+		$i = 0;		
+		foreach ($contests as $data) {
+			$select[$data['id']] = $data['name'];
+			$i++;
+		}
+
+		return $select;
+	}
 
 	public function dashboard()
 	{
@@ -55,8 +67,10 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_contest', array('action'=>'Menambahkan'));
 	}
 
-	public function editContest(){
-
+	public function editContest($contestId){
+		$this->data['contest'] = Contest::find($contestId);
+		$this->data['action'] = 'Menambahkan';
+		$this->layout->content = View::make('form_contest', $this->data);
 	}
 
 	public function listContest(){
@@ -66,19 +80,7 @@ class AdminController extends BaseController {
 		$this->data['contests'] = DB::select($q);
 
 		$this->layout->content = View::make('list_contest', $this->data);
-	}
-
-	private function selectContest(){
-		$select = array();
-		$contests = Contest::all(array('id', 'name'));
-		$i = 0;		
-		foreach ($contests as $data) {
-			$select[$data['id']] = $data['name'];
-			$i++;
-		}
-
-		return $select;
-	}
+	}	
 
 	public function createGroup($partId){
 		$this->data['part'] = Participant::find($partId);
@@ -115,8 +117,9 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_activity');
 	}	
 
-	public function editActivity(){
-
+	public function editActivity($activityId){
+		$this->data['activity'] = Activity::find($activityId);
+		$this->layout->content = View::make('form_activity', $this->data);
 	}
 
 	public function listActivity(){
@@ -153,7 +156,7 @@ class AdminController extends BaseController {
 		$this->data['testId'] 	= $test->id;
 		$this->data['quests'] 	= Question::where('test_id', '=', $testId)->get();		
 		$this->layout->content 	= View::make('list_question', $this->data);
-	}
+	}	
 
 	public function contestAct($id){
 		$activity = Activity::find($id);

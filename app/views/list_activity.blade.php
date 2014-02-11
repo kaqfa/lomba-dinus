@@ -51,8 +51,8 @@
 						<td> {{$data['date_from'].' -- '.$data['date_until']}} </td>
 						<td> {{$actType[$data['type']]}} </td>
 						<td>
-							{{HTML::link('admin/edit-contest/'.$data['id'], 'edit', array('class'=>'small-button yellow'))}} 
-							{{HTML::link('admin/del-contest/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
+							{{HTML::link('admin/edit-activity/'.$data['id'], 'edit', array('class'=>'small-button yellow'))}} 
+							{{HTML::link('admin/del-activity/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
 						</td>
 					</tr>
 					@endforeach

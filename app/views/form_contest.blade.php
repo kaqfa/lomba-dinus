@@ -11,6 +11,15 @@
 	</script>   
 @stop
 
+<?php
+if(!isset($contest)){
+	$contest = new StdClass();
+
+	$contest->name = '';
+	$contest->description = '';
+}
+?>
+
 @section('mainarea')
 <div class="grid_12">
             
@@ -21,16 +30,16 @@
 				<table class="form">
 					<tr>
 						<td> {{Form::label('name', 'Nama Lomba')}} </td>
-						<td> {{Form::text('name', null, array('class'=>'mini'))}} </td>
+						<td> {{Form::text('name', $contest->name, array('class'=>'mini'))}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('description', 'Deskripsi Lomba')}} </td>
-						<td> {{Form::textarea('description')}} </td>
+						<td> {{Form::textarea('description', $contest->description)}} </td>
 					</tr>				
 					<tr>
 						<td>&nbsp;</td>
 						<td>
-							{{Form::submit('Input Kategori Lomba')}}
+							{{Form::submit('Simpan Kategori Lomba')}}
 						</td>
 					</tr>
 				</table>

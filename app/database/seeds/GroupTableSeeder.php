@@ -6,6 +6,11 @@ class GroupTableSeeder extends Seeder {
 	{
 		//DB::table('groups')->delete();
 
-		Participant::create(array());
+		Group::create(array(
+				'name'=>'Group Sesukanya',
+				'advisor'=>'Fahri Firdausillah, MCS',
+				'contact'=>'08989987517',
+				'contest_id'=>'1'
+			));
 	}
 }
