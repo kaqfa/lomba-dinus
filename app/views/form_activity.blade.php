@@ -37,6 +37,9 @@ if(!isset($activity)){
         <h2>Form Aktifitas Lomba</h2>
         <div class="block">
             {{ Form::open(array('url'=>'admin/activity/insert')) }}
+            @if(isset($activity->id))
+            {{Form::hidden('id', $activity->id)}}
+            @endif
 				<table class="form">
 					<tr>
 						<td> {{Form::label('name', 'Nama Aktifitas')}} </td>

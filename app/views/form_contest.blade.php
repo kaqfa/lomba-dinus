@@ -26,7 +26,10 @@ if(!isset($contest)){
     <div class="box round first fullpage">
         <h2>Form {{$action}} Kategori Lomba</h2>
         <div class="block">
-            {{ Form::open(array('url'=>'admin/contest/insert')) }}
+            {{ Form::open(array('url'=>'admin/contest/save')) }}
+            @if(isset($contest->id))
+            {{Form::hidden('id', $contest->id)}}
+            @endif
 				<table class="form">
 					<tr>
 						<td> {{Form::label('name', 'Nama Lomba')}} </td>

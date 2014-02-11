@@ -31,7 +31,7 @@
         <h2>List Tes Online</h2>
         <div class="block">
         	@if(Session::get('theUser')->level == 1)
-        	{{HTML::link('admin/create-contest','+ Tambah Tes Online', array('class'=>'big-button'))}}
+        	{{HTML::link('admin/create-test','+ Tambah Tes Online', array('class'=>'big-button'))}}
         	@endif
 			<table class="data display datatable" id="example">
 				<thead>

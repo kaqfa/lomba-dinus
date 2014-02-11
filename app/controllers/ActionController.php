@@ -74,8 +74,19 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-user');
 	}
 
+	public function delUser($id){ 
+		User::find($id)->delete(); 
+		return Redirect::to('admin/list-user')->with('message', 'Data pengguna berhasil dihapus'); 
+	}
+
 	public function insertActivity(){
-		$act = new Activity;
+		$act = null;
+
+		if(Input::has('id')){
+			$act = Activity::find(Input::get('id'));
+		} else {
+			$act = new Activity;
+		}
 
 		$act->name = Input::get('name');
 		$act->description = Input::get('description');
@@ -89,8 +100,17 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-activity');
 	}
 
-	public function insertQuestion(){
-		$quest = new Question;
+	public function delActivity($id){ 
+		Activity::find($id)->delete(); 
+		return Redirect::to('admin/list-activity')->with('message', 'Data aktifitas berhasil dihapus'); 
+	}
+
+	public function saveQuestion(){
+		$quest = null;
+		if(Input::has('id'))
+			$quest = Question::find(Input::get('id'));
+		else
+			$quest = new Question;		
 		$inp = Input::all();
 
 		$quest->question = $inp['question'];
@@ -108,8 +128,59 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-question/'.$inp['test_id']);
 	}
 
-	public function insertContest(){
+	public function saveContest(){
+		$contest = null;
 
+		if(Input::has('id')){
+			$contest = Contest::find(Input::get('id'));
+		} else {
+			$contest = new Contest;
+		}
+
+		$contest->name = Input::get('name');
+		$contest->description = Input::get('description');
+
+		$contest->save();
+
+		return Redirect::to('admin/list-contest')->with('message', 'Kategori baru telah dibuat');
+	}
+
+	public function delContest($id){ 
+		$contest = Contest::find($id); 
+		if($contest != null){
+			$contest->delete();
+			return Redirect::to('admin/list-contest')
+							->with('message', 'Data kategori lomba berhasil dihapus'); 
+		} else {
+			return Redirect::to('admin/list-contest')
+							->with('error', 'Data kategori tidak ditemukan'); 
+		}
+
+	}
+
+	public function saveTest(){
+		$test = null;
+		if(Input::has('id'))
+			$test = Test::find(Input::get('id'));
+		else
+			$test = new Test;
+
+		$test->name = Input::get('name');
+		$test->description = Input::get('description');
+		$test->activity_id = Input::get('activity_id');
+		$test->date_from = Input::get('date_from');
+		$test->date_until = Input::get('date_until');
+		$test->minutes = Input::get('minutes');
+
+		$test->save();
+
+		return Redirect::to('admin/list-test')->with('message','Test berhasil dibuat');
+	}
+
+	public function delTest($id){
+		Test::find($id)->delete();
+
+		return Redirect::to('admin/list-test')->with('message', 'Test berhasil dihapus');
 	}
 
 	public function insertGroup(){

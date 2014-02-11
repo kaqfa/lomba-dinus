@@ -25,6 +25,7 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/create-group/{partId}', 'AdminController@createGroup');	
 	Route::get('/create-contest', 'AdminController@createContest');
 	Route::get('/create-activity', 'AdminController@createActivity');
+	Route::get('/create-test', 'AdminController@createTest');
 	Route::get('/create-question/{testId}', 'AdminController@createQuestion');
 
 	Route::get('/list-user', 'AdminController@listUser');
@@ -39,13 +40,23 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/edit-group/{partId}', 'AdminController@editGroup');	
 	Route::get('/edit-contest/{id}', 'AdminController@editContest');
 	Route::get('/edit-activity/{id}', 'AdminController@editActivity');
-	Route::get('/edit-question/{testId}', 'AdminController@editQuestion');
+	Route::get('/edit-test/{id}', 'AdminController@editTest');
+	Route::get('/edit-question/{questId}', 'AdminController@editQuestion');
+
+	Route::get('/del-user/{id}', 'ActionController@delUser');
+	Route::get('/del-group/{id}', 'ActionController@delGroup');	
+	Route::get('/del-contest/{id}', 'ActionController@delContest');
+	Route::get('/del-activity/{id}', 'ActionController@delActivity');
+	Route::get('/del-question/{id}', 'ActionController@delQuestion');
+	Route::get('/del-test/{id}', 'ActionController@delTest');
 
 	Route::post('/user/insert', 'ActionController@insertUser');
 	Route::post('/activity/insert', 'ActionController@insertActivity');
-	Route::post('/question/insert', 'ActionController@insertQuestion');
-	Route::post('/group/insert', 'ActionController@insertGroup');
-	Route::post('/group/edit', 'ActionController@editGroup');
+	Route::post('/question/save', 'ActionController@saveQuestion');
+	Route::post('/contest/save', 'ActionController@saveContest');
+	Route::post('/test/save', 'ActionController@saveTest');
+	Route::post('/group/insert', 'ActionController@insertGroup');	
+	// Route::post('/group/edit', 'ActionController@editGroup');	
 
 	Route::get('/contest-act/{id}', 'AdminController@contestAct');	
 

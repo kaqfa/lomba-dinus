@@ -10,6 +10,7 @@ class TestTableSeeder extends Seeder {
 		Test::create(array(
 				'name' => "Penyisihan Keamanan Jaringan",
 				'description' => "Babak penyisihan keamanan jaringan",
+				'activity_id' => '3',
 				'date_from' => "2014/02/14",
 				'date_until' => "2014/02/20",
 				'minutes' => 90

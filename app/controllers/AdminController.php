@@ -128,12 +128,32 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('list_activity', $this->data);
 	}
 
-	public function createTest(){
+	public function createTest(){		
+		$select = array();
+		$acts = Activity::where('type', '3')->get(array('id', 'name'));
+		$i = 0;		
+		foreach ($acts as $data) {
+			$select[$data['id']] = $data['name'];
+			$i++;
+		}
+		$this->data['select'] = $select;
 
+		$this->layout->content = View::make('form_test', $this->data);
 	}
 
-	public function editTest(){
+	public function editTest($id){
+		$select = array();
+		$acts = Activity::where('type', '3')->get(array('id', 'name'));
+		$i = 0;		
+		foreach ($acts as $data) {
+			$select[$data['id']] = $data['name'];
+			$i++;
+		}
+		$this->data['select'] = $select;
 
+		$this->data['test'] = Test::find($id);
+
+		$this->layout->content = View::make('form_test', $this->data);
 	}
 
 	public function listTest(){
@@ -146,8 +166,9 @@ class AdminController extends BaseController {
 		$this->layout->content = View::make('form_question', $this->data);
 	}
 
-	public function editQuestion(){
-
+	public function editQuestion($questId){
+		$this->data['quest'] = Question::find($questId);		
+		$this->layout->content = View::make('form_question', $this->data);
 	}
 
 	public function listQuestion($testId){
