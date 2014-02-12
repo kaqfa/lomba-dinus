@@ -66,11 +66,9 @@
                 <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
                 <li class="ic-form-style"><a href="javascript:"><span>Administrasi</span></a>
                     <ul>
-                        <li> {{HTML::link('admin/list-user','Data Pengguna')}} </li>
-                        @if($theUser->level != 2)
-                        <li> {{HTML::link('admin/list-group','Group Lomba')}} </li>
-                        @endif
+                        <li> {{HTML::link('admin/list-user','Data Pengguna')}} </li>                        
                         @if($theUser->level == 1)
+                        <li> {{HTML::link('admin/list-group','Group Lomba')}} </li>
                         <li> {{HTML::link('admin/list-participant','List Peserta')}} </li>
                         <li> {{HTML::link('admin/list-contest','Kategori Lomba')}} </li>
                         <li> {{HTML::link('admin/list-activity','Aktivitas')}} </li>

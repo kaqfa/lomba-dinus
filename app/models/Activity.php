@@ -9,4 +9,9 @@ class Activity extends Eloquent {
 	public function contest(){
 		return $this->belongsTo('Contest');
 	}
+
+	public function groupActivity(){
+		return $this->belongsToMany('Group', 'group_activity');
+	}
+	
 }

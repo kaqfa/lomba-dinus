@@ -34,6 +34,7 @@
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>
+						<th>No.</th>
 						<th>Pertanyaan</th>
 						<th>Opsi Jawaban</th>						
 						<th>Jawaban Benar</th>
@@ -41,8 +42,10 @@
 					</tr>
 				</thead>
 				<tbody>
+					<?php $no=1; ?>
 					@foreach($quests as $data)
 					<tr class="odd gradeX">
+						<td> {{$no}} </td>
 						<td> {{$data['question']}} </td>
 						<td> {{HTML::ol(array($data['optA'], $data['optB'], $data['optC'], $data['optD'], $data['optE']))}} </td>
 						<td> {{$data['answer']}} </td>
@@ -51,6 +54,7 @@
 							{{HTML::link('admin/del-contest/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
 						</td>
 					</tr>
+					<?php $no++; ?>
 					@endforeach
 				</tbody>
 			</table>

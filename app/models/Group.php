@@ -9,7 +9,7 @@ class Group extends Eloquent {
 
 	public function groupActivity()
 	{
-		return $this->belongsToMany('Activity');
+		return $this->belongsToMany('Activity', 'group_activity');
 	}
 
 	public function groupMember()

@@ -11,7 +11,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function participant()
 	{
 		return $this->hasOne('Participant');
-	}
+	}	
 
 	public function createPar()
 	{

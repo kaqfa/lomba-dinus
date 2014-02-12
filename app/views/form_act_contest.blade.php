@@ -13,7 +13,6 @@
 		$(function() {
 	        tinymce.init({selector:'textarea'});
 	        $( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
-	        
 	    });
 	</script>   
 @stop
@@ -24,24 +23,26 @@
         <h2>Form Aktifitas Lomba</h2>
         <div class="block">
             {{ Form::open(array('url'=>'admin/act-contest/save')) }}
+            {{ Form::hidden('activity_id', $act['id']) }}
 				<table class="form">
 					<tr>
-						<td> {{Form::label('name', 'Nama Aktifitas')}} </td>
-						<td> {{Form::text('name', $act['name'], array('class'=>'mini'))}} </td>
+						<td> {{Form::label('activity', 'Nama Aktifitas')}} </td>
+						<td> {{Form::text('activity', $act['name'], array('class'=>'mini'))}} </td>
 					</tr>
 					@if($act['type'] == '2')
 					<tr>
 						<td> {{Form::label('file', 'Upload Berkas')}} </td>
-						<td> {{Form::file('file')}} </td>
+						<td> {{Form::file('file')}} {{$groupAct->file}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('contest_id', 'Tipe Berkas')}} </td>
-						<td> {{Form::select('contest_id', array('1'=>'Dokumen', '2'=>'PDF', '3'=>'Slide'))}} </td>
+						<td> {{Form::select('contest_id', array('1'=>'Dokumen', '2'=>'PDF', '3'=>'Slide'),
+													$groupAct->contest_id )}} </td>
 					</tr>
 					@endif
 					<tr>
 						<td> {{Form::label('description', 'Keterangan')}} </td>
-						<td> {{Form::textarea('description')}} </td>
+						<td> {{Form::textarea('description', $groupAct->description)}} </td>
 					</tr>	
 					<tr>
 						<td>&nbsp;</td>

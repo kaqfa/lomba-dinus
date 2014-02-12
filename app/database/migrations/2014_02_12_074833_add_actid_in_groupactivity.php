@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddActIdInTest extends Migration {
+class AddActidInGroupactivity extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,7 +12,7 @@ class AddActIdInTest extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('tests', function($tb){
+		Schema::table('group_activity', function($tb){
 			$tb->integer('activity_id')->unsigned()->after('description');
 		});
 	}

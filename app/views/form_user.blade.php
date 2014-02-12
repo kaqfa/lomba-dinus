@@ -62,12 +62,14 @@
 					<td> {{Form::label('contact', '(Hand)Phone')}} </td>
 					<td> {{Form::text('contact', $valUser->contact, array('class'=>'mini'))}} </td>
 				</tr>
+				@if(Session::get('theUser')->level == 1)
 				<tr>
 					<td> {{Form::label('level', 'Level Pengguna')}} </td>
 					<td> 
 						{{Form::select('level', $userLevel, $valUser->level)}} 
 					</td>
 				</tr>					
+				@endif
 				<tr>
 					<td>&nbsp;</td>
 					<td>

@@ -15,7 +15,22 @@ class ActionController extends \BaseController {
 	public function userLogin(){
 		if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')))){
 		    $user = User::where('username','=',Input::get('username'))->first();
+
 		    Session::put('theUser', $user);
+		    if($user->level == 3){
+		    	$part = Participant::where('user_id', $user->id)->first(array('nim', 'id'));
+			    Session::put('theParticipant', $part);
+
+			    $groups = DB::table('group_member')->where('participant_id', $part->id)->get(array('group_id'));
+			    $theGroups = array();
+			    foreach ($groups as $group) 
+			    	$theGroups[] = $group->group_id;			    
+			    Session::put('theGroups', $theGroups);
+
+			    $contest = Contest::whereIn('id', $theGroups)->get(array('id', 'name'));
+			    Session::put('theContest', $contest);
+		    }
+
 		    return Redirect::to('admin');
 		} else {
 			return Redirect::to('/')->with('message', 'Username atau Password tidak tepat, silahkan coba lagi');
@@ -43,11 +58,14 @@ class ActionController extends \BaseController {
 		}
 
 		$user->username = Input::get('username');
-		$user->password	= Hash::make(Input::get('passwd'));
+		if(Input::get('passwd') != '')
+			$user->password	= Hash::make(Input::get('passwd'));
 		$user->name 	= Input::get('name');
 		$user->email	= Input::get('email');
 		$user->contact 	= Input::get('contact');
-		$user->level 	= Input::get('level');
+		if(Input::has('level'))
+			$user->level 	= Input::get('level');
+
 		$user->status 	= 1;
 
 		$user->save();		
@@ -260,6 +278,24 @@ class ActionController extends \BaseController {
 		}
 		
 		return Redirect::to('admin/list-group')->with('message', 'Group');
+	}
+
+	public function actContest(){		
+		$input['activity'] = Input::get('activity');
+		$input['description'] = Input::get('description');		
+		$input['file_type'] = Input::get('file_type');
+
+		if(Input::hasFile('file')){
+			Input::file('photo')->move('/uploads/group_act');
+			$input['file'] = Input::file('photo')->getClientOriginalName();
+		}
+
+		$act = Activity::find(Input::get('activity_id'));
+		$theGroups = Session::get('theGroups');
+		$groupAct = $act->groupActivity()->attach($theGroups[0], $input);
+
+		return Redirect::to('admin/contest-act/'.Input::get('activity_id'))
+										->with('message', 'Data berhasil diunggah dan bisa');
 	}
 
 	public function insertMessage(){
