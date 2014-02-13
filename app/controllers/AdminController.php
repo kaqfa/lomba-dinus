@@ -196,13 +196,22 @@ class AdminController extends BaseController {
 
 	public function contestAct($id){
 		$activity = Activity::find($id);
+		$groupAct = DB::table('group_activity')
+						->where('group_id',Session::get('theGroups')[0])
+						->where('activity_id',$id);						
 
 		$this->data['act'] = array('name'=>$activity->name, 'type' => $activity->type, 'id'=>$id);
-		$this->data['groupAct'] = Group::find();
 		
 		if($this->data['act']['type'] != '3'){
+			if($groupAct->count() < 1){
+				DB::table('group_activity')->insert(array('group_id'=>Session::get('theGroups')[0], 
+							'activity'=>$activity->name, 'description'=>'-', 'activity_id'=>$id, 
+							'file'=>'-', 'file_type'=>'0'));				
+			}
+			$this->data['groupAct'] = $groupAct->first(array('id', 'activity', 'description','file', 'file_type'));			
+
 			$this->layout->content = View::make('form_act_contest', $this->data);
-		} else {
+		} else {							
 			$this->data['pageNum'] = 1;			
 			$this->layout->content = View::make('test_welcome', $this->data);
 		}

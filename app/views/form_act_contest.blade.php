@@ -35,9 +35,9 @@
 						<td> {{Form::file('file')}} {{$groupAct->file}} </td>
 					</tr>
 					<tr>
-						<td> {{Form::label('contest_id', 'Tipe Berkas')}} </td>
-						<td> {{Form::select('contest_id', array('1'=>'Dokumen', '2'=>'PDF', '3'=>'Slide'),
-													$groupAct->contest_id )}} </td>
+						<td> {{Form::label('file_type', 'Tipe Berkas')}} </td>
+						<td> {{Form::select('file_type', array('1'=>'Dokumen', '2'=>'PDF', '3'=>'Slide'),
+													$groupAct->file_type )}} </td>
 					</tr>
 					@endif
 					<tr>

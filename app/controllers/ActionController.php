@@ -286,16 +286,17 @@ class ActionController extends \BaseController {
 		$input['file_type'] = Input::get('file_type');
 
 		if(Input::hasFile('file')){
-			Input::file('photo')->move('/uploads/group_act');
-			$input['file'] = Input::file('photo')->getClientOriginalName();
+			Input::file('file')->move('/uploads/group_act');
+			$input['file'] = Input::file('file')->getClientOriginalName();
 		}
 
-		$act = Activity::find(Input::get('activity_id'));
-		$theGroups = Session::get('theGroups');
-		$groupAct = $act->groupActivity()->attach($theGroups[0], $input);
+		DB::table('group_activity')
+					->where('group_id', Session::get('theGroups')[0])
+					->where('activity_id', Input::get('activity_id'))
+					->update($input);
 
 		return Redirect::to('admin/contest-act/'.Input::get('activity_id'))
-										->with('message', 'Data berhasil diunggah dan bisa');
+						->with('message', 'Data berhasil diunggah dan bisa');
 	}
 
 	public function insertMessage(){
