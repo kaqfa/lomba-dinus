@@ -22,7 +22,7 @@
     <div class="box round first fullpage">
         <h2>Form Aktifitas Lomba</h2>
         <div class="block">
-            {{ Form::open(array('url'=>'admin/act-contest/save')) }}
+            {{ Form::open(array('url'=>'admin/act-contest/save', 'files'=>true)) }}
             {{ Form::hidden('activity_id', $act['id']) }}
 				<table class="form">
 					<tr>
@@ -32,7 +32,7 @@
 					@if($act['type'] == '2')
 					<tr>
 						<td> {{Form::label('file', 'Upload Berkas')}} </td>
-						<td> {{Form::file('file')}} {{$groupAct->file}} </td>
+						<td> {{Form::file('file')}} {{HTML::link('/dl/group_act/'.$groupAct->file,$groupAct->file)}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('file_type', 'Tipe Berkas')}} </td>

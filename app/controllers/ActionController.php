@@ -286,8 +286,11 @@ class ActionController extends \BaseController {
 		$input['file_type'] = Input::get('file_type');
 
 		if(Input::hasFile('file')){
-			Input::file('file')->move('/uploads/group_act');
-			$input['file'] = Input::file('file')->getClientOriginalName();
+			$filename = 'Group-'.Session::get('theGroups')[0].'-'.Input::get('activity').
+									'.'.Input::file('file')->getClientOriginalExtension();
+			$success = Input::file('file')->move(public_path().'/uploads/group_act', $filename);
+			if($success)
+				$input['file'] = $filename;
 		}
 
 		DB::table('group_activity')

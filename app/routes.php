@@ -57,11 +57,17 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::post('/test/save', 'ActionController@saveTest');
 	Route::post('/group/insert', 'ActionController@insertGroup');	
 	Route::post('/act-contest/save', 'ActionController@actContest');	
-	// Route::post('/group/edit', 'ActionController@editGroup');	
+	// Route::post('/group/edit', 'ActionController@editGroup');
 
-	Route::get('/contest-act/{id}', 'AdminController@contestAct');	
+	Route::get('/contest-act/{id}', 'AdminController@contestAct');		
 
 	Route::get('/test/{num}', 'ContestController@index');
+});
+
+Route::get('/dl/{dir}/{url}',function($dir,$url){
+  //PDF file is stored under project/public/download/info.pdf
+  $file= public_path(). "/uploads/".$dir.'/'.$url;  
+  return Response::download($file, $url);
 });
 
 Route::get('/insertGroup', function(){
