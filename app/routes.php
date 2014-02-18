@@ -60,6 +60,7 @@ Route::group(array('prefix'=>'/admin'), function()
 	// Route::post('/group/edit', 'ActionController@editGroup');
 
 	Route::get('/contest-act/{id}', 'AdminController@contestAct');		
+	Route::get('/jury-act/{id}', 'AdminController@juryAct');
 
 	Route::get('/test/{num}', 'ContestController@index');
 });

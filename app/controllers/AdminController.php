@@ -239,4 +239,34 @@ class AdminController extends BaseController {
 		}
 	}
 
+	public function juryAct($id){
+		$act = Activity::find($id);
+		$groups = Group::where('contest_id', $act->contest_id)->get();
+
+		foreach ($groups as $group) {
+			$group->score = 'Belum Dinilai';
+			if(strtotime($act->date_from) > time()){
+				$group->status = 'Belum Mulai';
+			} else {
+				$groupAct = DB::table('group_activity')->where('group_id', $group->id)->where('activity_id', $id);
+				if($groupAct->count() < 1){
+					$group->status = 'Belum Input';
+				} else {
+					$score = DB::table('scores')->where('jury_id', Session::get('theUser')->id)
+										 ->where('group_activity_id', $groupAct->first()->id);
+					if($score->count() < 1){
+						$group->status = 'Belum Dinilai';
+					} else {
+						$group->status = 'Sudah Dinilai';
+						$group->score = $score->first()->score;
+					}
+				}
+			}
+		}		
+
+		$this->data['groups'] = $groups;
+
+		$this->layout->content = View::make('list_act_contest', $this->data);
+	}
+
 }
