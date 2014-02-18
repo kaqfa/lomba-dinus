@@ -70,8 +70,20 @@ class ActionController extends \BaseController {
 
 		$user->save();		
 
-		if(Input::get('level') == '3'){
-			//print_r($user);
+		if(Input::get('level') == '2'){
+			$jury = null;
+
+			if(Input::has('id')){
+				$jury = Jury::where('user_id', Input::get('id'))->first();
+			} else {
+				$jury = new Jury;
+			}
+
+			$jury->user_id = Input::get('id');
+			$jury->contest_id = Input::get('contest_id');
+
+			$jury->save();
+		} else if(Input::get('level') == '3'){			
 			$par = null;
 
 			if(Input::has('id')){

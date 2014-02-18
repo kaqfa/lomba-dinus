@@ -63,7 +63,7 @@
         </div>
         <div class="grid_12">
             <ul class="nav main">
-                <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a> </li>
+                <li class="ic-dashboard"><a href="{{URL::to('admin')}}"><span>Dashboard</span></a></li>
                 <li class="ic-form-style"><a href="javascript:"><span>Administrasi</span></a>
                     <ul>
                         <li> {{HTML::link('admin/list-user','Data Pengguna')}} </li>                        
@@ -74,24 +74,22 @@
                         <li> {{HTML::link('admin/list-activity','Aktivitas')}} </li>
                         @endif
                     </ul>
-                </li>
-                @if($theUser->level == 3)
+                </li>                
                 <li class="ic-grid-tables"><a href="javascript:"><span>Aktivitas Lomba</span></a>
                     <ul>
+                    @if($theUser->level == 3)
                     @foreach($contestMenu as $menu)
                         <li>{{HTML::link('admin/contest-act/'.$menu->id,$menu->name)}}</li>
                     @endforeach
+                    @else
+                    @foreach($contestMenu as $menu)
+                        <li>{{HTML::link('admin/jury-act/'.$menu->id,$menu->name)}}</li>
+                    @endforeach
+                    @endif
                     </ul>
                 </li>
-                @endif
-
                 @if($theUser->level != 3)
-                <li class="ic-charts"><a href="javascript:"><span>Test Online</span></a> 
-                    <ul>
-                        <li> {{HTML::link('admin/list-test','Manajemen Test')}} </li>
-                        <li> {{HTML::link('admin/test-result','Hasil Tes')}} </li>                        
-                    </ul>
-                </li>
+                <li class="ic-charts"><a href="{{URL::to('admin/list-test')}}"><span>Manajemen Test</span></a></li>
                 @endif
                 <li class="ic-notifications"><a href="notifications.html"><span>Pesan</span></a></li>
             </ul>

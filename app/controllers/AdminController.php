@@ -9,19 +9,41 @@ class AdminController extends BaseController {
 		$this->data['userLevel'] = array('1'=>'Administrator', '2'=>'Juri Lomba', '3'=>'Peserta Lomba');
 		$this->data['actType'] = array('1'=>'Input Teks', '2'=>'Upload File', '3'=>'Tes Online');
 
-		$userContest = DB::table('users')
-							->join('participants', 'users.id', '=', 'participants.user_id')
-							->join('group_member', 'participants.id', '=', 'group_member.participant_id')
-							->join('groups', 'groups.id', '=', 'group_member.group_id')
-							->get(array('contest_id'));
+		$userContest = $this->getUserActivities();		
+
+		View::share('contestMenu', Activity::whereIn('contest_id', $userContest)->get());
+		//print_r(Activity::whereIn('contest_id', $userContest)->get());
+		$this->beforeFilter('auth');
+	}
+
+	private function getUserActivities(){
+		$acts = null;				
+
+		if(Session::get('theUser')->level == 3)
+			$acts = DB::table('users')
+								->join('participants', 'users.id', '=', 'participants.user_id')
+								->join('group_member', 'participants.id', '=', 'group_member.participant_id')
+								->join('groups', 'groups.id', '=', 'group_member.group_id')
+								->where('users.id', Session::get('theUser')->id)
+								->get(array('contest_id'));
+		else if(Session::get('theUser')->level == 2)
+			$acts = DB::table('users')
+								->join('juries', 'users.id', '=', 'juries.user_id')								
+								->where('users.id', Session::get('theUser')->id)
+								->get(array('contest_id'));
+		else 
+			$acts = Activity::groupBy('contest_id')->get(array('contest_id'));		
+
 		$theContests = array();
-		foreach ($userContest as $value) {
+		foreach ($acts as $value) {
 			$theContests[] = $value->contest_id;
 		}		
 
-		View::share('contestMenu', Activity::whereIn('contest_id', $theContests)->get());
-		$this->beforeFilter('auth');
-	}	
+		if(count($theContests) < 1)
+			$theContests[0] = 0;
+
+		return $theContests;
+	}
 
 	private function selectContest(){
 		$select = array();
