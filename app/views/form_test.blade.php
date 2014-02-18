@@ -50,10 +50,10 @@ if(!isset($test)){
 						<td> {{Form::label('description', 'Deskripsi Tes')}} </td>
 						<td> {{Form::textarea('description', $test->description)}} </td>
 					</tr>	
-					<tr>
+					<!--tr>
 						<td> {{Form::label('activity_id', 'Untuk Aktifitas')}} </td>
 						<td> {{Form::select('activity_id', $select, $test->activity_id)}} </td>
-					</tr>
+					</tr-->
 					<tr>
 						<td> {{Form::label('date_from', 'Mulai Tes')}} </td>
 						<td> {{Form::text('date_from', $test->date_from, array('class'=>'datepicker'))}}  

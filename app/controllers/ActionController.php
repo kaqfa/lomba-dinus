@@ -127,6 +127,22 @@ class ActionController extends \BaseController {
 
 		$act->save();
 
+		if(Input::get('type') == 3){
+			if(Input::has('id')){
+				$test = Test::where('activity_id', Input::get('id'));
+			} else {
+				$test = new Test;
+			}
+			$test->name = Input::get('name');
+			$test->description = Input::get('description');
+			$test->activity_id = $act->id;
+			$test->date_from = Input::get('date_from');
+			$test->date_until = Input::get('date_until');
+			$test->minutes = 90;
+
+			$test->save();
+		}
+
 		return Redirect::to('admin/list-activity');
 	}
 
@@ -197,7 +213,7 @@ class ActionController extends \BaseController {
 
 		$test->name = Input::get('name');
 		$test->description = Input::get('description');
-		$test->activity_id = Input::get('activity_id');
+		// $test->activity_id = Input::get('activity_id');
 		$test->date_from = Input::get('date_from');
 		$test->date_until = Input::get('date_until');
 		$test->minutes = Input::get('minutes');

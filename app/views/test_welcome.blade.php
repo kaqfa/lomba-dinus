@@ -4,14 +4,12 @@
 <div class="grid_12">
             
     <div class="box round first">
-        <h2>Test Online Keamanan Jaringan</h2>
-        <div class="block">
-            <h3>Selamat Mengerjakan Test</h3>
-            <p>Tes adalah hal yang sangat bagus, silahkan mulai tes dengan melakukan klik di bawah ini.</p>
+        <h2>{{$activity->name}}</h2>
+        <div class="block">            
+            <div> {{$activity->description}} </div>
             <div>
-                {{HTML::link('admin/test/'.$pageNum, 'MULAI TES SEKARANG !!!')}}
+                {{HTML::link('admin/test/'.$pageNum, 'MULAI TES SEKARANG', array('class'=>'big-button'))}}
             </div>
-            
             <div class="clear">
             </div>
         </div>

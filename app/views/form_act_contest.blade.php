@@ -20,7 +20,8 @@
 @section('mainarea')
 <div class="grid_12">            
     <div class="box round first fullpage">
-        <h2>Form Aktifitas Lomba</h2>
+        <h2>Form {{$activity->name}}</h2>
+        <div class="block">{{$activity->description}}</div>
         <div class="block">
             {{ Form::open(array('url'=>'admin/act-contest/save', 'files'=>true)) }}
             {{ Form::hidden('activity_id', $act['id']) }}

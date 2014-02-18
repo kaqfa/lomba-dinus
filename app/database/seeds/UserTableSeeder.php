@@ -66,5 +66,25 @@ class UserTableSeeder extends Seeder {
 				'level' => 3,
 				'status' => 1
 			));
+
+		User::create(array(
+				'username' => 'peserta3',
+				'password' => Hash::make('123'),
+				'name' => 'Peserta Ketiga',
+				'email' => 'peserta3@gmail.com',
+				'contact' => '08989987517',
+				'level' => 3,
+				'status' => 1
+			));
+
+		User::create(array(
+				'username' => 'peserta0',
+				'password' => Hash::make('123'),
+				'name' => 'Peserta Endol',
+				'email' => 'peserta0@gmail.com',
+				'contact' => '08989987517',
+				'level' => 3,
+				'status' => 1
+			));
 	}
 }

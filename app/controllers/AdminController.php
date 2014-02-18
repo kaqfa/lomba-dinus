@@ -151,7 +151,8 @@ class AdminController extends BaseController {
 	}
 
 	public function createActivity(){
-		$this->layout->content = View::make('form_activity');
+		$this->data['selectContest'] = $this->selectContest();
+		$this->layout->content = View::make('form_activity', $this->data);
 	}	
 
 	public function editActivity($activityId){
@@ -223,6 +224,7 @@ class AdminController extends BaseController {
 						->where('activity_id',$id);						
 
 		$this->data['act'] = array('name'=>$activity->name, 'type' => $activity->type, 'id'=>$id);
+		$this->data['activity'] = $activity;
 		
 		if($this->data['act']['type'] != '3'){
 			if($groupAct->count() < 1){

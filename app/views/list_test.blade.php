@@ -31,7 +31,7 @@
         <h2>List Tes Online</h2>
         <div class="block">
         	@if(Session::get('theUser')->level == 1)
-        	{{HTML::link('admin/create-test','+ Tambah Tes Online', array('class'=>'big-button'))}}
+        	{{--HTML::link('admin/create-test','+ Tambah Tes Online', array('class'=>'big-button'))--}}
         	@endif
 			<table class="data display datatable" id="example">
 				<thead>
@@ -53,7 +53,7 @@
 						<td>
 							{{HTML::link('admin/list-question/'.$data['id'], 'input soal', array('class'=>'small-button green'))}} 
 							{{HTML::link('admin/edit-test/'.$data['id'], 'edit', array('class'=>'small-button yellow'))}} 
-							{{HTML::link('admin/del-test/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
+							{{--HTML::link('admin/del-test/'.$data['id'], 'del', array('class'=>'small-button red'))--}} 
 						</td>
 					</tr>
 					@endforeach

@@ -51,7 +51,7 @@ if(!isset($activity)){
 					</tr>	
 					<tr>
 						<td> {{Form::label('contest_id', 'Untuk Lomba')}} </td>
-						<td> {{Form::select('contest_id', $contestMenu, $activity->contest_id)}} </td>
+						<td> {{Form::select('contest_id', $selectContest, $activity->contest_id)}} </td>
 					</tr>
 					<tr>
 						<td> {{Form::label('date_from', 'Mulai Aktifitas')}} </td>
