@@ -42,14 +42,13 @@ class ContestController extends \BaseController {
 	 */
 	public function index($testId, $num = 0)
 	{
-		$this->generateQuestions($testId);
 		$quests = $this->getQuestions($testId);
 		View::share('leftMenu', $quests);
 
 		$questId = DB::table('group_answer')
-							->where('test_id', $testId)
-							->where('group_id', $this->group)
-							->first(array('question_id'));
+						->where('test_id', $testId)
+						->where('group_id', $this->group)
+						->first(array('question_id'));
 
 		$this->data['numQuest'] = $num;		
 		if(count($questId) > 0){
@@ -58,6 +57,25 @@ class ContestController extends \BaseController {
 			return Redirect::to('/admin/test/'.$testId.'/'.$questId->question_id);
 		}
 		$this->layout->content =  View::make('test.test', $this->data);
+	}
+
+	public function startTest($activityId){
+		$activity = Activity::find($activityId);
+		$groupAct = DB::table('group_activity')
+						->where('group_id',Session::get('theGroups')[0])
+						->where('activity_id',$id);
+
+		if( (strtotime($activity->date_from) > time()) || (strtotime($activity->date_until) < time()) ){
+			return Redirect::to('/admin/contest-act/'.$activityId);
+		}
+
+		$this->generateQuestions($testId);
+		if($groupAct < 1)
+			DB::table('group_activity')->insert(array('group_id'=>$this->group, 
+				'activity'=>$activity->name, 'description'=>'The test is now started', 
+				'activity_id'=>$activityId, 'file'=>'-', 'file_type'=>'0'));
+
+		return Redirect::to('/admin/test/'.$activityId);
 	}
 
 	/**
