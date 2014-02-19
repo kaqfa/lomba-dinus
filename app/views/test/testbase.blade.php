@@ -32,14 +32,17 @@
         		<div id="sidebar">
                 	@section('testMenu')
                     <ul class="sideNav">
-                        @for($num = 1; $num <= count($leftMenu); $num++)
-                    	<li>@if($num == Request::segment(3))
-                            {{HTML::link('/admin/test/'.$num, 'Soal Nomer '.$num, array('class'=>'active'))}}
+                    <?php $num = 1; ?>
+                        @foreach($leftMenu as $quest)
+                    	<li>@if($quest->question_id == Request::segment(4))
+                                {{HTML::link('/admin/test/'.Request::segment(3).'/'.$quest->question_id, 
+                                    'Soal Nomer '.$num++, array('class'=>'active'))}}
                             @else
-                            {{HTML::link('/admin/test/'.$num, 'Soal Nomer '.$num)}}
+                                {{HTML::link('/admin/test/'.Request::segment(3).'/'.$quest->question_id, 
+                                    'Soal Nomer '.$num++)}}
                             @endif
                         </li>
-                        @endfor
+                        @endforeach
                     </ul>
                     @show
                     <!-- // .sideNav -->

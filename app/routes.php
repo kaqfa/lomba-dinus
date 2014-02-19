@@ -62,7 +62,8 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/contest-act/{id}', 'AdminController@contestAct');		
 	Route::get('/jury-act/{id}', 'AdminController@juryAct');
 
-	Route::get('/test/{num}', 'ContestController@index');
+	Route::get('/test/{testId}/{num}', 'ContestController@index');
+	Route::get('/test/{testId}', 'ContestController@index');
 });
 
 Route::get('/dl/{dir}/{url}',function($dir,$url){

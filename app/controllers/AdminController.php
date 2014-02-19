@@ -236,7 +236,7 @@ class AdminController extends BaseController {
 
 			$this->layout->content = View::make('form_act_contest', $this->data);
 		} else {							
-			$this->data['pageNum'] = 1;			
+			$this->data['testId'] = Test::where('activity_id', $id)->first()->id;
 			$this->layout->content = View::make('test_welcome', $this->data);
 		}
 	}

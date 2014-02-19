@@ -4,7 +4,7 @@
     
 <div id="main">
     <form action="" class="jNice">
-        <h3>Another section</h3>
+        <h3>Pertanyaan</h3>
         <fieldset>
             {{$quest->question}}
         </fieldset>

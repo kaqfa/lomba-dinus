@@ -8,7 +8,7 @@
         <div class="block">            
             <div> {{$activity->description}} </div>
             <div>
-                {{HTML::link('admin/test/'.$pageNum, 'MULAI TES SEKARANG', array('class'=>'big-button'))}}
+                {{HTML::link('admin/test/'.$testId, 'MULAI TES SEKARANG', array('class'=>'big-button'))}}
             </div>
             <div class="clear">
             </div>

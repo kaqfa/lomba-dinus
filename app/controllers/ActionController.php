@@ -21,7 +21,8 @@ class ActionController extends \BaseController {
 		    	$part = Participant::where('user_id', $user->id)->first(array('nim', 'id'));
 			    Session::put('theParticipant', $part);
 
-			    $groups = DB::table('group_member')->where('participant_id', $part->id)->get(array('group_id'));
+			    $groups = DB::table('group_member')->where('participant_id', $part->id)
+			    						->where('role', 1)->get(array('group_id'));
 			    $theGroups = array();
 			    foreach ($groups as $group) 
 			    	$theGroups[] = $group->group_id;			    
