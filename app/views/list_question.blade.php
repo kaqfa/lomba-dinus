@@ -44,14 +44,15 @@
 				<tbody>
 					<?php $no=1; ?>
 					@foreach($quests as $data)
+					<?php $textAns = array($data['optA'], $data['optB'], $data['optC'], $data['optD'], $data['optE']); ?>
 					<tr class="odd gradeX">
 						<td> {{$no}} </td>
 						<td> {{$data['question']}} </td>
-						<td> {{HTML::ol(array($data['optA'], $data['optB'], $data['optC'], $data['optD'], $data['optE']))}} </td>
-						<td> {{$data['answer']}} </td>
+						<td> {{HTML::ol($textAns, array('style'=>'list-style-type:lower-alpha'))}} </td>
+						<td> {{$textAns[$data['answer']-1]}} </td>
 						<td>
 							{{HTML::link('admin/edit-question/'.$data['id'], 'edit', array('class'=>'small-button yellow'))}} 
-							{{HTML::link('admin/del-contest/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
+							{{HTML::link('admin/del-question/'.$data['id'], 'del', array('class'=>'small-button red'))}} 
 						</td>
 					</tr>
 					<?php $no++; ?>

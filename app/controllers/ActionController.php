@@ -2,15 +2,9 @@
 
 class ActionController extends \BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
+	public function __construct(){
+		//$this->beforeFilter('auth');
+	}	
 
 	public function userLogin(){
 		if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')))){
@@ -28,12 +22,21 @@ class ActionController extends \BaseController {
 			    	$theGroups[] = $group->group_id;			    
 			    Session::put('theGroups', $theGroups);
 
-			    $contest = Contest::whereIn('id', $theGroups)->get(array('id', 'name'));
-			    Session::put('theContest', $contest);
+			    $contest = Contest::where('id', Group::find($theGroups[0])->contest_id)->first(array('id', 'name'));
+			    Session::put('theContests', $contest);
+
+			    //print_r(DB::getQueryLog());
+
+			    $acts  = Activity::where('contest_id',$contest->id)->where('type',3)->get();	
+			    foreach($acts as $act){
+						$tests[] = $act->test[0]->id;
+					}
+			    Session::put('theTest', $tests);
 		    }
 
 		    return Redirect::to('admin');
 		} else {
+			//print_r(DB::getQueryLog());
 			return Redirect::to('/')->with('message', 'Username atau Password tidak tepat, silahkan coba lagi');
 		}
 	}
@@ -175,6 +178,18 @@ class ActionController extends \BaseController {
 		return Redirect::to('admin/list-question/'.$inp['test_id']);
 	}
 
+	public function delQuestion($questId){
+		$quest = Question::find($questId); 
+		if($quest != null){
+			$quest->delete();
+			return Redirect::to('admin/list-question/'.$quest->test_id)
+							->with('message', 'Data pertanyaan berhasil dihapus'); 
+		} else {
+			return Redirect::to('admin/list-test/')
+							->with('error', 'Data pertanyaan tidak ditemukan'); 
+		}
+	}
+
 	public function saveContest(){
 		$contest = null;
 
@@ -247,14 +262,14 @@ class ActionController extends \BaseController {
 		$member1->save();
 		
 		//$member1->groupMember()->get(); // attach($groupSave->id, array('role', '1'))
-		DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+		DB::insert('insert into lmb_group_member values (null, ?, ?, ?, ?, ?)', 
 					array($member1->id, $group->id, '1', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 
 		if(Input::has('check2')){
 			$member2 = Participant::create( array('nim'=>Input::get('nim2'), 'name'=>Input::get('name2'), 
 						'email'=>Input::get('email2'), 'contact'=>'-', 'created_by'=>$theUser->id) );
 			//$member2->groupMember()->attach($groupSave->id, array('role', '2'));
-			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+			DB::insert('insert into lmb_group_member values (null, ?, ?, ?, ?, ?)', 
 					array($member2->id, $group->id, '2', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
 
@@ -262,7 +277,7 @@ class ActionController extends \BaseController {
 			$member3 = Participant::create( array('nim'=>Input::get('nim3'), 'name'=>Input::get('name3'), 
 						'email'=>Input::get('email3'), 'contact'=>'-', 'created_by'=>$theUser->id) );
 			//$member3->groupMember()->attach($groupSave->id, array('role', '2'));
-			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+			DB::insert('insert into lmb_group_member values (null, ?, ?, ?, ?, ?)', 
 					array($member3->id, $group->id, '2', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
 		//print_r(DB::getQueryLog());
@@ -296,13 +311,13 @@ class ActionController extends \BaseController {
 		if(Input::has('check2') && $members->count() < 2){
 			$member2 = Participant::create( array('nim'=>Input::get('nim2'), 'name'=>Input::get('name2'), 
 						'email'=>Input::get('email2'), 'contact'=>'-', 'created_by'=>$theUser->id) );			
-			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+			DB::insert('insert into lmb_group_member values (null, ?, ?, ?, ?, ?)', 
 					array($member2->id, $group->id, '2', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
 		if(Input::has('check3') && $members->count() < 3){
 			$member3 = Participant::create( array('nim'=>Input::get('nim3'), 'name'=>Input::get('name3'), 
 						'email'=>Input::get('email3'), 'contact'=>'-', 'created_by'=>$theUser->id) );
-			DB::insert('insert into group_member values (null, ?, ?, ?, ?, ?)', 
+			DB::insert('insert into lmb_group_member values (null, ?, ?, ?, ?, ?)', 
 					array($member3->id, $group->id, '2', date('Y-m-d H:i:s'), date('Y-m-d H:i:s')) );
 		}
 		

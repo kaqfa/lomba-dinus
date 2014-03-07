@@ -69,6 +69,7 @@
 		}
 	} else { // if create group
 		$valGroup = new stdClass();
+		$valGroup->id = 0;
 		$valGroup->name = '';
 		$valGroup->advisor = '';
 		$valGroup->contact = $part->contact;
@@ -94,9 +95,9 @@
     <div class="box round first fullpage">
         <h2>Form Group Lomba</h2>
         <div class="block">
-        @if(isset($valGroup))
-        	{{ Form::open(array('url'=>'admin/group/edit')) }}
-        	{{Form::hidden('groupId',$valGroup->id)}}
+        @if( $valGroup->id > 0 )
+        	{{Form::open(array('url'=>'admin/group/edit'))}}
+        	{{Form::hidden('groupId',$valGroup->id)}}        	
         @else
         	{{ Form::open(array('url'=>'admin/group/insert')) }}
         @endif

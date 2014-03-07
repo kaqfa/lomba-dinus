@@ -7,24 +7,56 @@
         <h3>Pertanyaan</h3>
         <fieldset>
             {{$quest->question}}
+            {{Form::hidden('question_id',Request::segment(4), array('id'=>'question_id'))}}
+            {{Form::hidden('test_id',Request::segment(3), array('id'=>'test_id'))}}
         </fieldset>
 
-        <h3>Pilihan Jawaban</h3>
+        <h3>Pilihan Jawaban [Jawaban sementara: <span id="jawab">{{$answer}}</span>]</h3>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <td> {{Form::radio('answer', '1')}} {{$quest->optA}} </td>
+                <td> <strong>A.</strong> 
+                @if($answer == 'A')
+                {{Form::radio('answer', '1', true, array('class'=>'opt'))}} {{$quest->optA}} 
+                @else
+                {{Form::radio('answer', '1', false, array('class'=>'opt'))}} {{$quest->optA}} 
+                @endif
+                </td>
             </tr>                        
             <tr class="odd">
-                <td> {{Form::radio('answer', '2')}} {{$quest->optB}} </td>
+                <td> <strong>B.</strong> 
+                @if($answer == 'B')
+                {{Form::radio('answer', '2', true, array('class'=>'opt'))}} {{$quest->optB}} 
+                @else
+                {{Form::radio('answer', '2', false, array('class'=>'opt'))}} {{$quest->optB}} 
+                @endif
+                </td>
             </tr>                        
             <tr>
-                <td> {{Form::radio('answer', '3')}} {{$quest->optC}} </td>
+                <td> <strong>C.</strong> 
+                @if($answer == 'C')
+                {{Form::radio('answer', '3', true, array('class'=>'opt'))}} {{$quest->optC}} 
+                @else
+                {{Form::radio('answer', '3', false, array('class'=>'opt'))}} {{$quest->optC}} 
+                @endif 
+                </td>
             </tr>                        
             <tr class="odd">
-                <td> {{Form::radio('answer', '4')}} {{$quest->optD}} </td>
+                <td> <strong>D.</strong> 
+                @if($answer == 'D')
+                {{Form::radio('answer', '4', true, array('class'=>'opt'))}} {{$quest->optD}} 
+                @else
+                {{Form::radio('answer', '4', false, array('class'=>'opt'))}} {{$quest->optD}} 
+                @endif 
+                </td>
             </tr>                        
             <tr>
-                <td> {{Form::radio('answer', '5')}} {{$quest->optE}} </td>
+                <td> <strong>E.</strong> 
+                @if($answer == 'E')
+                {{Form::radio('answer', '5', true, array('class'=>'opt'))}} {{$quest->optE}} 
+                @else
+                {{Form::radio('answer', '5', false, array('class'=>'opt'))}} {{$quest->optE}} 
+                @endif
+                </td>
             </tr>                        
         </table>
     </form>

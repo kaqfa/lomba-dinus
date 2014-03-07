@@ -1,13 +1,19 @@
 <?php
-
 class ContestController extends \BaseController {
 
 	protected $layout = 'test.testbase';
 	protected $data = array();
 	protected $group;
+	protected $options = array();
 
 	public function __construct(){	
 		$this->group = Session::get('theGroups')[0];
+		$this->options = array('<span style="color:red">Belum dijawab</span>', 
+											'<span style="color:green">A</span>', 
+											'<span style="color:green">B</span>', 
+											'<span style="color:green">C</span>', 
+											'<span style="color:green">D</span>', 
+											'<span style="color:green">E</span>');
 	}
 
 	private function getQuestions($testId){
@@ -16,6 +22,57 @@ class ContestController extends \BaseController {
 									->where('test_id', $testId)->get();
 
 		return $quests;
+	}	
+	
+	public function index($testId, $num = 0){
+		if( in_array($testId, Session::get('theTest')) ){
+			$groupAct = DB::table('group_activity')
+								->where('group_id', Session::get('theGroups')[0])
+								->where('activity_id', Test::find($testId)->activity_id)
+								->count();
+
+			if($groupAct < 1)
+				return Redirect::to('/admin/contest-act/'.Test::find($testId)->activity_id);			
+		} else {
+			return Redirect::to('/admin')->with('message','Anda tidak memiliki test tersebut');
+		}
+
+		$quests = $this->getQuestions($testId);
+		View::share('leftMenu', $quests);
+
+		$questId = DB::table('group_answer')
+									->where('question_id', $num)
+									->where('group_id', $this->group)
+									->first();
+
+		$this->data['numQuest'] = $num;		
+		if($num > 0){
+			$this->data['answer'] = $this->options[$questId->answer];
+			$this->data['quest'] = Question::find($num);
+		} else {
+			$questId = DB::table('group_answer')
+									->where('test_id', $testId)
+									->where('group_id', $this->group)
+									->first();
+			return Redirect::to('/admin/test/'.$testId.'/'.$questId->question_id);
+		}
+		$this->layout->content =  View::make('test.test', $this->data);
+	}
+
+	public function updateAnswer(){
+		$this->layout = null;
+		$cond = DB::table('group_answer')->where('question_id', Input::get('question_id'))
+				->where('group_id', Session::get('theGroups')[0])->where('test_id', Input::get('test_id'));
+
+		if($cond->count() > 0){
+			$cond->update(array('answer'=>Input::get('answer')));			
+			return $this->options[$cond->first(array('answer'))->answer];
+		} else {
+			//print_r(DB::getQueryLog());
+			return "Belum dijawab";
+		}
+		
+		//
 	}
 
 	private function generateQuestions($testId){
@@ -33,113 +90,37 @@ class ContestController extends \BaseController {
 										'group_id'=>$this->group, 'test_id'=>$testId) );
 			}
 		}
-	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index($testId, $num = 0)
-	{
-		$quests = $this->getQuestions($testId);
-		View::share('leftMenu', $quests);
-
-		$questId = DB::table('group_answer')
-						->where('test_id', $testId)
-						->where('group_id', $this->group)
-						->first(array('question_id'));
-
-		$this->data['numQuest'] = $num;		
-		if(count($questId) > 0){
-			$this->data['quest'] = Question::find($num);
-		} else {
-			return Redirect::to('/admin/test/'.$testId.'/'.$questId->question_id);
-		}
-		$this->layout->content =  View::make('test.test', $this->data);
-	}
-
-	public function startTest($activityId){
+		$activityId = Test::find($testId)->activity_id;
 		$activity = Activity::find($activityId);
+
 		$groupAct = DB::table('group_activity')
-						->where('group_id',Session::get('theGroups')[0])
-						->where('activity_id',$id);
+								->where('group_id', $this->group)
+								->where('activity_id', $activityId)
+								->count();
 
-		if( (strtotime($activity->date_from) > time()) || (strtotime($activity->date_until) < time()) ){
-			return Redirect::to('/admin/contest-act/'.$activityId);
-		}
-
-		$this->generateQuestions($testId);
 		if($groupAct < 1)
 			DB::table('group_activity')->insert(array('group_id'=>$this->group, 
 				'activity'=>$activity->name, 'description'=>'The test is now started', 
 				'activity_id'=>$activityId, 'file'=>'-', 'file_type'=>'0'));
-
-		return Redirect::to('/admin/test/'.$activityId);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
+	public function startTest($testId){
+		
+		if( in_array($testId, Session::get('theTest')) ){
+			$test = Test::find($testId);
+		} else {
+			return Redirect::to('/admin')->with('message','Anda tidak memiliki test tersebut');
+		}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
+		if( (strtotime($test->date_from) > time()) && (strtotime($test->date_until) < time()) ){
+			return Redirect::to('/admin/contest-act/'.Test::find($testId)->activity_id)
+							->with('message', 'Waktu Habis');
+		}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+		$this->generateQuestions($testId);		
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		return Redirect::to('/admin/test/'.$testId);
 	}
 
 }

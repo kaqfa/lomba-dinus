@@ -13,5 +13,9 @@ class Activity extends Eloquent {
 	public function groupActivity(){
 		return $this->belongsToMany('Group', 'group_activity');
 	}
+
+	public function test(){
+		return $this->hasMany('Test');
+	}
 	
 }

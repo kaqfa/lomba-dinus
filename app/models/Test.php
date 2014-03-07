@@ -11,4 +11,8 @@ class Test extends Eloquent {
 		return $this->hasMany('Question');
 	}
 
+	public function activity(){
+		return $this->belongsTo('Activity');
+	}
+
 }

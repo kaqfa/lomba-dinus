@@ -11,7 +11,20 @@
 
 <!-- JavaScripts-->
 {{HTML::script('jqui/jquery.js')}}
-{{HTML::script('transdmin/style/js/jNice.js')}}
+{{--HTML::script('transdmin/style/js/jNice.js')--}}
+<script type="text/javascript">
+    $(document).ready(function(){        
+        $('.opt').click(function(){
+            //alert('duar');
+            var item = $(this);
+            $.post( "{{URL::to('/admin/test/answer')}}", 
+                { question_id: $('#question_id').val(), test_id: $('#test_id').val(), answer: item.val() }, 
+                function(data){
+                    $('#jawab').html(data);
+                });
+        });
+    });
+</script>
 </head>
 
 <body>

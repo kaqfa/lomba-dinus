@@ -13,7 +13,7 @@ class AdminController extends BaseController {
 
 		View::share('contestMenu', Activity::whereIn('contest_id', $userContest)->get());
 		//print_r(Activity::whereIn('contest_id', $userContest)->get());
-		$this->beforeFilter('auth');
+		$this->beforeFilter('auth');		
 	}
 
 	private function getUserActivities(){
@@ -88,9 +88,9 @@ class AdminController extends BaseController {
 		$this->data['participants'] = Participant::all()->toArray();		
 		$i = 0;
 		foreach ($this->data['participants'] as $data) {
-			$contests = DB::select('select g.name as contest from groups g 
-					join group_member gm on (g.id = gm.group_id)
-					join contests c on (c.id = g.contest_id)
+			$contests = DB::select('select g.name as contest from lmb_groups g 
+					join lmb_group_member gm on (g.id = gm.group_id)
+					join lmb_contests c on (c.id = g.contest_id)
 					where gm.participant_id = ?', array($data['id']));
 			$this->data['participants'][$i]['contests'] = $contests;
 			//print_r($this->data['participants'][$i]);
@@ -123,6 +123,8 @@ class AdminController extends BaseController {
 		$this->data['part'] = Participant::find($partId);
 		$this->data['participantId'] = $partId;
 		$this->data['contests'] = $this->selectContest();
+
+		//print_r($this->data);
 		
 		$this->layout->content = View::make('form_group', $this->data);
 	}	
@@ -140,10 +142,10 @@ class AdminController extends BaseController {
 	public function listGroup(){						
 		$q = 'select g.id as id, g.name as name, p.name as leader, advisor, 
 					 g.contact as contact, c.name as contest
-					from groups g 
-					join group_member gm on (group_id = g.id)
-					join participants p on (gm.participant_id = p.id)
-					join contests c on (c.id = g.contest_id)
+					from lmb_groups g 
+					join lmb_group_member gm on (group_id = g.id)
+					join lmb_participants p on (gm.participant_id = p.id)
+					join lmb_contests c on (c.id = g.contest_id)
 					where gm.role = ? ';
 		$this->data['groups'] = DB::select($q, array('1'));
 
