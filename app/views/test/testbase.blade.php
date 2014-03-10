@@ -6,16 +6,23 @@
 
 <!-- CSS -->
 {{HTML::style('transdmin/style/css/transdmin.css')}}
+{{HTML::style('counter/jquery.countdown.css')}}
 <!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="style/css/ie6.css" /><![endif]-->
 <!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="style/css/ie7.css" /><![endif]-->
 
 <!-- JavaScripts-->
 {{HTML::script('jqui/jquery.js')}}
+{{HTML::script('counter/jquery.plugin.min.js')}}
+{{HTML::script('counter/jquery.countdown.js')}}
 {{--HTML::script('transdmin/style/js/jNice.js')--}}
 <script type="text/javascript">
     $(document).ready(function(){        
-        $('.opt').click(function(){
-            //alert('duar');
+        var now = new Date();        
+        $('#counter').countdown(
+            {until: +{{$timeLeft}}, format: 'HMS', expiryUrl: '{{URL::to('/admin')}}'}
+            );
+
+        $('.opt').click(function(){            
             var item = $(this);
             $.post( "{{URL::to('/admin/test/answer')}}", 
                 { question_id: $('#question_id').val(), test_id: $('#test_id').val(), answer: item.val() }, 
@@ -23,23 +30,26 @@
                     $('#jawab').html(data);
                 });
         });
-    });
+    });    
 </script>
+<style type="text/css">
+    #counter {width: 180px; height: 30px; position: fixed; bottom: 15px; right: 20px; padding-top: 5px;}
+</style>
 </head>
 
 <body>
 	<div id="wrapper">
-    	<!-- h1 tag stays for the logo, you can use the a tag for linking the index page -->
+    	<div id="counter"></div>
+        <!-- h1 tag stays for the logo, you can use the a tag for linking the index page -->
     	<h1><a href="#"><span>TestKeamanan Online</span></a></h1>
         
         <!-- You can name the links with lowercase, they will be transformed to uppercase by CSS, we prefered to name them with uppercase to have the same effect with disabled stylesheet -->
         <ul id="mainNav">
         	<li><a href="javascript:void()" class="active">LOMBA KEAMANAN JARINGAN</a></li><!-- Use the "active" class for the active menu item  -->
-        	<li class="logout"> {{HTML::link('/admin', 'SELESAI')}} </li>
-            <li class="logout"><a href="#">SIMPAN SEMENTARA</a></li>
+        	<li class="logout"> {{HTML::link('/admin/contest-act/'.$test->activity_id, 'SELESAI')}} </li>
+            <li class="logout">{{HTML::link('/admin/test-review/'.$test->id, 'REVIEW')}}</li>
         </ul>
-        <!-- // #end mainNav -->
-        
+        <!-- // #end mainNav -->        
         <div id="containerHolder">
 			<div id="container">
         		<div id="sidebar">

@@ -67,6 +67,7 @@ Route::group(array('prefix'=>'/admin'), function()
 	Route::get('/start-test/{testId}', 'ContestController@startTest');
 	Route::get('/test/{testId}/{num}', 'ContestController@index');
 	Route::get('/test/{testId}', 'ContestController@index');
+	Route::get('/test-review/{testId}', 'ContestController@review');
 });
 
 Route::get('/dl/{dir}/{url}',function($dir,$url){
@@ -104,4 +105,9 @@ Route::get('/', function()
 Route::get('/user', function()
 {
 	var_dump(User::all());
+});
+
+Route::get('/timer', function(){ 
+	$now = new DateTime(); 
+	echo $now->format("M j, Y H:i:s O")."\n"; 
 });

@@ -238,7 +238,14 @@ class AdminController extends BaseController {
 
 			$this->layout->content = View::make('form_act_contest', $this->data);
 		} else {							
-			$this->data['testId'] = Test::where('activity_id', $id)->first()->id;
+			$theTest = Test::where('activity_id', $id)->first();
+			$this->data['testId'] = $theTest->id;
+			$this->data['theTest'] = $theTest;
+
+			if($groupAct->count() > 0){
+				$this->data['testStart'] = $groupAct->first();
+			}
+
 			$this->layout->content = View::make('test_welcome', $this->data);
 		}
 	}

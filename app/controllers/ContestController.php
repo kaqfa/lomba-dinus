@@ -23,8 +23,37 @@ class ContestController extends \BaseController {
 
 		return $quests;
 	}	
+
+	private function timeLeft(){
+			$test = Test::find(Request::segment(3));
+			$start = DB::table('group_activity')
+										->where('group_id', Session::get('theGroups')[0])
+										->where('activity_id', $test->activity_id)
+										->first(array('created_at'));
+
+			$differ = ($test->minutes*60) - (time() - strtotime($start->created_at));
+
+			return $differ;
+	}
+
+	public function review($testId){
+		$this->data['answers'] = DB::table('group_answer')
+														->where('group_id', Session::get('theGroups')[0])
+														->where('test_id', $testId)->get();
+		$this->data['options'] = $this->options;
+		$quests = $this->getQuestions($testId);
+		View::share('leftMenu', $quests);
+		View::share('timeLeft', $this->timeLeft());
+		View::share('test', Test::find($testId));
+
+		$this->layout->content =  View::make('test.review', $this->data);
+	}
 	
 	public function index($testId, $num = 0){
+		if($this->timeLeft() < 1) {
+			return Redirect::to('/admin/contest-act/'.Test::find($testId)->activity_id);
+		}
+
 		if( in_array($testId, Session::get('theTest')) ){
 			$groupAct = DB::table('group_activity')
 								->where('group_id', Session::get('theGroups')[0])
@@ -32,22 +61,25 @@ class ContestController extends \BaseController {
 								->count();
 
 			if($groupAct < 1)
-				return Redirect::to('/admin/contest-act/'.Test::find($testId)->activity_id);			
+				return Redirect::to('/admin/contest-act/'.Test::find($testId)->activity_id);
 		} else {
 			return Redirect::to('/admin')->with('message','Anda tidak memiliki test tersebut');
 		}
 
 		$quests = $this->getQuestions($testId);
 		View::share('leftMenu', $quests);
+		View::share('timeLeft', $this->timeLeft());
+		View::share('test', Test::find($testId));
 
 		$questId = DB::table('group_answer')
 									->where('question_id', $num)
 									->where('group_id', $this->group)
 									->first();
-
-		$this->data['numQuest'] = $num;		
+		
+		$this->data['numQuest'] = $num;
+		$this->data['options'] = $this->options;		
 		if($num > 0){
-			$this->data['answer'] = $this->options[$questId->answer];
+			$this->data['answer'] = $questId->answer;
 			$this->data['quest'] = Question::find($num);
 		} else {
 			$questId = DB::table('group_answer')
@@ -69,10 +101,8 @@ class ContestController extends \BaseController {
 			return $this->options[$cond->first(array('answer'))->answer];
 		} else {
 			//print_r(DB::getQueryLog());
-			return "Belum dijawab";
+			return $this->options[0];
 		}
-		
-		//
 	}
 
 	private function generateQuestions($testId){
@@ -87,7 +117,8 @@ class ContestController extends \BaseController {
 			foreach ($quests as $data) {
 					DB::table('group_answer')
 					->insert( array('question_id'=>$data->id, 'answer'=>0,
-										'group_id'=>$this->group, 'test_id'=>$testId) );
+										'group_id'=>$this->group, 'test_id'=>$testId, 
+										'created_at'=>date('Y-m-d H:i:s'), 'updated_at'=>date('Y-m-d H:i:s')) );
 			}
 		}
 
@@ -102,7 +133,8 @@ class ContestController extends \BaseController {
 		if($groupAct < 1)
 			DB::table('group_activity')->insert(array('group_id'=>$this->group, 
 				'activity'=>$activity->name, 'description'=>'The test is now started', 
-				'activity_id'=>$activityId, 'file'=>'-', 'file_type'=>'0'));
+				'activity_id'=>$activityId, 'file'=>'-', 'file_type'=>'0', 
+				'created_at'=>date('Y-m-d H:i:s'), 'updated_at'=>date('Y-m-d H:i:s')));
 	}
 
 	public function startTest($testId){
